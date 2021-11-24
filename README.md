@@ -1,3 +1,2 @@
-# iOS_Academy_21_Team_One
-
-This is the repository for GTGH iOS Academy of 2021
+# iOS Academy 21 
+This is the repository for GTGH iOS Academy 2021 of team 1
