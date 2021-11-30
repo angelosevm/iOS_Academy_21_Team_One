@@ -31,16 +31,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Default search when launching app
         APICaller.shared.getRecipes(searchTerm: "Main") { [weak self] result in
             switch result {
-            case.success(let hits):
-                self?.hits = hits
-                self?.viewModels = hits.compactMap({
+            case.success(let response):
+                self?.hits = response.hits
+                self?.viewModels = response.hits.compactMap({
                     FoodTableViewCellViewModel(
                         title: $0.recipe.label,
                         subtitle: $0.recipe.dishType?[0] ?? "no dish type",
                         imageURL: URL(string: $0.recipe.image),
-                        time: $0.recipe.totalTime ?? 0.0,
+                        time: $0.recipe.totalTime == 0 ? 30 : $0.recipe.totalTime ?? 30,
                         calories: $0.recipe.calories,
-                        servings: $0.recipe.yield
+                        servings: $0.recipe.yield,
+                        ingredients: $0.recipe.ingredientLines,
+                        recipeURL: $0.recipe.url
                     )
                 })
                 DispatchQueue.main.async {
@@ -64,16 +66,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // Fill the viewModels with data
         APICaller.shared.getRecipes(searchTerm: query) { [weak self] result in
             switch result {
-            case.success(let hits):
-                self?.hits = hits
-                self?.viewModels = hits.compactMap({
+            case.success(let response):
+                self?.hits = response.hits
+                self?.viewModels = response.hits.compactMap({
                     FoodTableViewCellViewModel(
                         title: $0.recipe.label,
                         subtitle: $0.recipe.dishType?[0] ?? "no dish type",
                         imageURL: URL(string: $0.recipe.image),
-                        time: $0.recipe.totalTime ?? 0,
+                        time: $0.recipe.totalTime == 0 ? 30 : $0.recipe.totalTime ?? 30,
                         calories: $0.recipe.calories,
-                        servings: $0.recipe.yield
+                        servings: $0.recipe.yield,
+                        ingredients: $0.recipe.ingredientLines,
+                        recipeURL: $0.recipe.url
                     )
                 })
                 DispatchQueue.main.async {
@@ -99,8 +103,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         if segue.identifier == "RecipeDetails" {
             let nextVC = segue.destination as! RecipeDetails
             // transfer recipe details to nextVC
-            guard let index = index else {return}
-            nextVC.customName = hits[index].recipe.label
+            guard let index = index else { return }
+            nextVC.recipeDetails.append(viewModels[index])
         }
     }
     
@@ -142,18 +146,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         // the recipe we select is at index
         index = indexPath.row
-        
-        // open recipe page in safari browser
-        let hit = hits[indexPath.row]
-
-        guard let url = URL(string: hit.recipe.url) else {
-            return
-        }
-        let vc = SFSafariViewController(url: url)
-        present(vc, animated: true)
-
-        // or go to custom details page
-        //performSegue(withIdentifier: "RecipeDetails", sender: nil)
+        // go to custom details page
+        performSegue(withIdentifier: "RecipeDetails", sender: nil)
     }
     
     // cell height
