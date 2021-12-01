@@ -54,6 +54,8 @@
 		3996B950274FE55B00249C3C /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3996B92B274FE29400249C3C /* Montserrat-Regular.ttf */; };
 		3996B952274FE7F400249C3C /* FontExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3996B951274FE7F400249C3C /* FontExtensions.swift */; };
 		3996D14227513AEF00AD964A /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3996D14127513AEF00AD964A /* Colors.swift */; };
+		5046E5C32756BB6300C14578 /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5046E5C22756BB6300C14578 /* CategoryTableViewController.swift */; };
+		5046E5C52756DAF000C14578 /* CellCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5046E5C42756DAF000C14578 /* CellCategory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -125,6 +127,8 @@
 		3996B932274FE29400249C3C /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		3996B951274FE7F400249C3C /* FontExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtensions.swift; sourceTree = "<group>"; };
 		3996D14127513AEF00AD964A /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		5046E5C22756BB6300C14578 /* CategoryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
+		5046E5C42756DAF000C14578 /* CellCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +185,7 @@
 				399684FF274D53060020F169 /* SceneDelegate.swift */,
 				39968501274D53060020F169 /* HomeViewController.swift */,
 				3995786A2753CE3E006A01E2 /* CategoryViewController.swift */,
+				5046E5C22756BB6300C14578 /* CategoryTableViewController.swift */,
 				3995786C2753CE5E006A01E2 /* FavoritesViewController.swift */,
 				3995786E2753CE6E006A01E2 /* SettingsViewController.swift */,
 				399578702753D6B0006A01E2 /* RecipeDetailsViewController.swift */,
@@ -190,6 +195,7 @@
 				3996850B274D53070020F169 /* Info.plist */,
 				3996852D274D53C40020F169 /* APICaller.swift */,
 				3996852F274D68C60020F169 /* FoodTableViewCell.swift */,
+				5046E5C42756DAF000C14578 /* CellCategory.swift */,
 			);
 			path = FoodApp;
 			sourceTree = "<group>";
@@ -426,9 +432,11 @@
 				3996D14227513AEF00AD964A /* Colors.swift in Sources */,
 				3995786B2753CE3E006A01E2 /* CategoryViewController.swift in Sources */,
 				39968530274D68C60020F169 /* FoodTableViewCell.swift in Sources */,
+				5046E5C52756DAF000C14578 /* CellCategory.swift in Sources */,
 				39968500274D53060020F169 /* SceneDelegate.swift in Sources */,
 				399578712753D6B0006A01E2 /* RecipeDetailsViewController.swift in Sources */,
 				3996852E274D53C40020F169 /* APICaller.swift in Sources */,
+				5046E5C32756BB6300C14578 /* CategoryTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
