@@ -83,13 +83,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
                 }
-                
+
             case.failure(let error):
                 print(error)
             }
-            
         }
     }
+    
     // show the search bar as a navigation bar item
     private func createSearchBar() {
         navigationItem.searchController = searchVC
