@@ -26,7 +26,7 @@ final class APICaller {
     private init() {}
     
     // Network call
-    public func getRecipes(searchTerm: String, completion: @escaping (Result<[RecipeLinks], NetworkError>) -> Void) {
+    public func getRecipes(searchTerm: String, completion: @escaping (Result<APIResponse, NetworkError>) -> Void) {
         
         // create url with a custom query: searchTerm
         var urlComponents = URLComponents()
@@ -69,8 +69,8 @@ final class APICaller {
                     let result = try JSONDecoder().decode(APIResponse.self, from: data)
                     
                     print("Recipes: \(result.hits.count)")
-                    //print("\(result.hits)")
-                    completion(.success(result.hits))
+                    print("\(result._links.next?.href ?? "")")
+                    completion(.success(result))
                 }
                 catch {
                     completion(.failure(.decodingFailed(error)))
