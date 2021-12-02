@@ -29,41 +29,24 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         createSearchBar()
         
         // Default search when launching app
-        APICaller.shared.getRecipes(searchTerm: "Main") { [weak self] result in
-            switch result {
-            case.success(let response):
-                self?.hits = response.hits
-                self?.viewModels = response.hits.compactMap({
-                    FoodTableViewCellViewModel(
-                        title: $0.recipe.label,
-                        subtitle: $0.recipe.dishType?[0] ?? "no dish type",
-                        imageURL: URL(string: $0.recipe.image),
-                        time: $0.recipe.totalTime == 0 ? 30 : $0.recipe.totalTime ?? 30,
-                        calories: $0.recipe.calories,
-                        servings: $0.recipe.yield,
-                        ingredients: $0.recipe.ingredientLines,
-                        recipeURL: $0.recipe.url
-                    )
-                })
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
-                }
-
-            case.failure(let error):
-                print(error)
-            }
-        }
+        getData("Main")
 }
     
     // when the search button is clicked, perform an API call
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        // make sure text is not empty
         guard let text = searchBar.text, !text.isEmpty else {
             return
         }
-        
+        // trim white spaces and new lines in input text
         let query = text.trimmingCharacters(in: .whitespacesAndNewlines)
-        
         // Fill the viewModels with data
+        getData(query)
+        // test lines
+    }
+    
+    // use the API caller to tranfer data into the cell view model
+    func getData(_ query: String) {
         APICaller.shared.getRecipes(searchTerm: query) { [weak self] result in
             switch result {
             case.success(let response):
@@ -108,16 +91,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-
+    // -MARK: Table functions
     
     // Table frame equal to the entire view
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
     }
-        
-    
-    // -MARK: Table functions
     
     // anonymous closure pattern for table
     private let tableView: UITableView = {
