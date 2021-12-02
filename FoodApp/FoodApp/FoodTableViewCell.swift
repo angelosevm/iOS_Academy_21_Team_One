@@ -16,6 +16,8 @@ class FoodTableViewCellViewModel {
     let time: Double
     let calories: Double
     let servings: Int
+    let ingredients: [String]
+    let recipeURL: String
     
     init(
         title: String,
@@ -23,7 +25,9 @@ class FoodTableViewCellViewModel {
         imageURL: URL?,
         time: Double,
         calories: Double,
-        servings: Int
+        servings: Int,
+        ingredients: [String],
+        recipeURL: String
     ) {
         self.title = title
         self.subtitle = subtitle
@@ -31,6 +35,8 @@ class FoodTableViewCellViewModel {
         self.time = time
         self.calories = calories
         self.servings = servings
+        self.ingredients = ingredients
+        self.recipeURL = recipeURL
     }
 }
 
