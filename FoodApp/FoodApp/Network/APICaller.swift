@@ -26,26 +26,43 @@ final class APICaller {
     private init() {}
     
     // Network call
-    public func getRecipes(searchTerm: String, completion: @escaping (Result<APIResponse, NetworkError>) -> Void) {
+    public func getRecipes(searchTerm: String, type: String, hasType: Bool, const: Bool, urlConst: String,
+                           completion: @escaping (Result<APIResponse, NetworkError>) -> Void) {
         
         // create url with a custom query: searchTerm
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
         urlComponents.host = "api.edamam.com"
         urlComponents.path = "/api/recipes/v2"
+        // check for next page
+        // check if we are filtering data based on type
+        if !hasType {
         urlComponents.queryItems = [
             URLQueryItem(name: "type", value: "public"),
             URLQueryItem(name: "q", value: searchTerm),
             URLQueryItem(name: "app_id", value: "c0fbb46c"),
-            URLQueryItem(name: "app_key", value: "6503a4d4eb76389c8be4f5d39ee699b7")
-        ]
+            URLQueryItem(name: "app_key", value: "6503a4d4eb76389c8be4f5d39ee699b7"),
+            ]
+        }
+        else {
+        urlComponents.queryItems = [
+            URLQueryItem(name: "type", value: "public"),
+            URLQueryItem(name: "q", value: searchTerm),
+            URLQueryItem(name: "app_id", value: "c0fbb46c"),
+            URLQueryItem(name: "app_key", value: "6503a4d4eb76389c8be4f5d39ee699b7"),
+            URLQueryItem(name: "dishType", value: type),
+            ]
+        }
         
         // check if url is correct
-        guard let url = urlComponents.url else {
+        guard var url = urlComponents.url else {
             completion(.failure(.urlMalformed))
             return
         }
-        
+        if const {
+            url = URL(string: urlConst)!
+        }
+        print(url)
         // create task
         let task = URLSession.shared.dataTask(with: url) {data, urlResponse, error in
             // check for general error
@@ -69,7 +86,6 @@ final class APICaller {
                     let result = try JSONDecoder().decode(APIResponse.self, from: data)
                     
                     print("Recipes: \(result.hits.count)")
-                    print("\(result._links.next?.href ?? "")")
                     completion(.success(result))
                 }
                 catch {
@@ -86,6 +102,8 @@ final class APICaller {
 struct APIResponse: Codable {
     let hits: [RecipeLinks]
     let _links: NextLink
+    let to: Int
+    let count: Int
 }
 
 struct RecipeLinks: Codable {

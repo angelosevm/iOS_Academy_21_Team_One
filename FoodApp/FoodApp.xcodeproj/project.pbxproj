@@ -177,22 +177,17 @@
 		399684FC274D53060020F169 /* FoodApp */ = {
 			isa = PBXGroup;
 			children = (
-				3996D14027513ADC00AD964A /* Colors */,
-				3996B914274FE21800249C3C /* Fonts */,
 				399684FD274D53060020F169 /* AppDelegate.swift */,
 				399684FF274D53060020F169 /* SceneDelegate.swift */,
-				39968501274D53060020F169 /* HomeViewController.swift */,
-				3995786A2753CE3E006A01E2 /* CategoryViewController.swift */,
-				3995786C2753CE5E006A01E2 /* FavoritesViewController.swift */,
-				3995786E2753CE6E006A01E2 /* SettingsViewController.swift */,
-				399578702753D6B0006A01E2 /* RecipeDetailsViewController.swift */,
 				39968503274D53060020F169 /* Main.storyboard */,
 				39968506274D53070020F169 /* Assets.xcassets */,
 				39968508274D53070020F169 /* LaunchScreen.storyboard */,
 				3996850B274D53070020F169 /* Info.plist */,
-				3996852D274D53C40020F169 /* APICaller.swift */,
-				3996852F274D68C60020F169 /* FoodTableViewCell.swift */,
-				39D05AF627565AB800518824 /* IngredientCell.swift */,
+				3996D14027513ADC00AD964A /* Colors */,
+				3996B914274FE21800249C3C /* Fonts */,
+				39CCAC8A2758EC72003C3F36 /* Views */,
+				39CCAC8C2758ECAA003C3F36 /* Cells */,
+				39CCAC8B2758EC9A003C3F36 /* Network */,
 			);
 			path = FoodApp;
 			sourceTree = "<group>";
@@ -258,6 +253,35 @@
 				3996D14127513AEF00AD964A /* Colors.swift */,
 			);
 			path = Colors;
+			sourceTree = "<group>";
+		};
+		39CCAC8A2758EC72003C3F36 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				39968501274D53060020F169 /* HomeViewController.swift */,
+				3995786C2753CE5E006A01E2 /* FavoritesViewController.swift */,
+				3995786E2753CE6E006A01E2 /* SettingsViewController.swift */,
+				3995786A2753CE3E006A01E2 /* CategoryViewController.swift */,
+				399578702753D6B0006A01E2 /* RecipeDetailsViewController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		39CCAC8B2758EC9A003C3F36 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				3996852D274D53C40020F169 /* APICaller.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		39CCAC8C2758ECAA003C3F36 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				39D05AF627565AB800518824 /* IngredientCell.swift */,
+				3996852F274D68C60020F169 /* FoodTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

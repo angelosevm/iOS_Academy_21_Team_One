@@ -18,6 +18,7 @@ class FoodTableViewCellViewModel {
     let servings: Int
     let ingredients: [String]
     let recipeURL: String
+    let shareAs: String
     
     init(
         title: String,
@@ -27,7 +28,8 @@ class FoodTableViewCellViewModel {
         calories: Double,
         servings: Int,
         ingredients: [String],
-        recipeURL: String
+        recipeURL: String,
+        shareAs: String
     ) {
         self.title = title
         self.subtitle = subtitle
@@ -37,6 +39,7 @@ class FoodTableViewCellViewModel {
         self.servings = servings
         self.ingredients = ingredients
         self.recipeURL = recipeURL
+        self.shareAs = shareAs
     }
 }
 
@@ -120,8 +123,8 @@ class FoodTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 10, bottom: 20, right: 10))
-        contentView.backgroundColor = .offWhite
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
+        contentView.backgroundColor = .offWhiteNew
         
         // icons
         let clockView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
@@ -231,6 +234,7 @@ class FoodTableViewCell: UITableViewCell {
                 viewModel.imageData = data
                 DispatchQueue.main.async {
                     self?.foodImageView.image = UIImage(data: data)
+                    self?.foodImageView.contentMode = .scaleAspectFill
                 }
             }.resume()
         }

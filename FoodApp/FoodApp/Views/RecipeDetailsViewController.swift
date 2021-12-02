@@ -19,6 +19,7 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     @IBOutlet weak var servingsLabel: UILabel!
     @IBOutlet weak var ingredientsTitleLabel: UILabel!
     @IBOutlet weak var instructionsButton: UIButton!
+    @IBOutlet weak var shareLink: UIButton!
     @IBOutlet weak var ingredientsTable: UITableView!
     
     var recipeDetails: [FoodTableViewCellViewModel] = []
@@ -26,10 +27,12 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .offWhite
+        
         // custom back button
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
         backbutton.tintColor = .white
         navigationItem.leftBarButtonItem = backbutton
+        
         // fill labels and image
         ingredientsTable.dataSource = self
         ingredientsTable.delegate = self
@@ -92,4 +95,16 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         let vc = SFSafariViewController(url: url)
         present(vc, animated: true)
     }
+    
+    @IBAction func shareRecipe(_ sender: UIButton) {
+        
+        let recipeWebsitePath = recipeDetails[0].shareAs
+
+        guard let url = URL(string: recipeWebsitePath) else {
+            return
+        }
+        let vc = SFSafariViewController(url: url)
+        present(vc, animated: true)
+    }
+        
 }

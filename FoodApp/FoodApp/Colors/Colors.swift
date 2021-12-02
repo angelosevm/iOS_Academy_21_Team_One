@@ -13,6 +13,11 @@ extension UIColor {
     
 }
 
+extension UIColor {
+    static var offWhiteNew = UIColor(red: 153/255, green: 149/255, blue: 112/255, alpha: 0.3)
+    
+}
+
 // colors that go well together in linear gradient
 extension UIColor {
     static let darkStart = UIColor(red: 50/255, green: 60/255, blue: 65/255, alpha: 1)
