@@ -42,6 +42,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let query = text.trimmingCharacters(in: .whitespacesAndNewlines)
         // Fill the viewModels with data
         getData(query)
+        // test lines
     }
     
     // use the API caller to tranfer data into the cell view model
