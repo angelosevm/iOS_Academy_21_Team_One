@@ -14,3 +14,4 @@ class FavoritesViewController: UIViewController {
         title = "Favorites"
     }
 }
+

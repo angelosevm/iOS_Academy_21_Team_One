@@ -12,6 +12,11 @@ class CategoryCell: UITableViewCell {
     
     @IBOutlet weak var categoryCell: UILabel!
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
     }

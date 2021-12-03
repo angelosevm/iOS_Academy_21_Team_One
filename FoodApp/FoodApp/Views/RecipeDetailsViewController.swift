@@ -83,12 +83,12 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         return cell
         
     }
- 
+    
     // when hitting the "View instructions" button go to the recipe website
     @IBAction func websiteButton(_ sender: UIButton) {
         
         let recipeWebsitePath = recipeDetails[0].recipeURL
-
+        
         guard let url = URL(string: recipeWebsitePath) else {
             return
         }
@@ -99,12 +99,12 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     @IBAction func shareRecipe(_ sender: UIButton) {
         
         let recipeWebsitePath = recipeDetails[0].shareAs
-
+        
         guard let url = URL(string: recipeWebsitePath) else {
             return
         }
         let vc = SFSafariViewController(url: url)
         present(vc, animated: true)
     }
-        
+    
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import SafariServices
+import NVActivityIndicatorView
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
@@ -23,16 +24,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         // setup the view
         super.viewDidLoad()
+//        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+//        self.view.window?.rootViewController = viewController
+//        self.view.window?.makeKeyAndVisible()
         self.navigationItem.title = "FLAVOR"
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        
+//        let activityFrame = CGRect(x: 200, y: 200, width: 200, height: 200)
+//        let activityIndicator = NVActivityIndicatorView(frame: activityFrame, type: .ballBeat, color: .black, padding: 1.0)
+//        view.addSubview(activityIndicator)
+//        activityIndicator.startAnimating()
         createSearchBar()
-        
         // Default search when launching app
         getData("Main", checkIfConst: false, urlConst: "")
-}
+    }
     
     // when the search button is clicked, perform an API call
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -78,7 +84,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
                     }
                 }
-
             case.failure(let error):
                 print(error)
             }
@@ -94,7 +99,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // segue to next controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //self.navigationItem.title = "Main View"
-
+        
         if segue.identifier == "RecipeDetails" {
             let nextVC = segue.destination as! RecipeDetails
             // transfer recipe details to nextVC

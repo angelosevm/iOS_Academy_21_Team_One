@@ -12,7 +12,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     
     // search controller for typing a custom query
     private let searchVC = UISearchController(searchResultsController: nil)
-    
+    var typeSearched: String = "Main course"
     private var hits = [RecipeLinks]()
     private var viewModels = [FoodTableViewCellViewModel]()
     private var index : Int?
@@ -23,7 +23,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         // setup the view
         super.viewDidLoad()
-        self.navigationItem.title = "Category"
+        self.navigationItem.title = "\(typeSearched)"
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
@@ -32,7 +32,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         
         // Default search when launching app
         getData("Main", checkIfConst: false, urlConst: "")
-}
+    }
     
     // when the search button is clicked, perform an API call
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -49,7 +49,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     
     // use the API caller to tranfer data into the cell view model
     func getData(_ query: String, checkIfConst: Bool, urlConst: String) {
-        APICaller.shared.getRecipes(searchTerm: query, type: "Cereals", hasType: true,
+        APICaller.shared.getRecipes(searchTerm: query, type: typeSearched,
+                                    hasType: true,
                                     const: checkIfConst, urlConst: urlConst) { [weak self] result in
             switch result {
             case.success(let response):
@@ -78,7 +79,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
                         self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
                     }
                 }
-
+                
             case.failure(let error):
                 print(error)
             }
@@ -94,7 +95,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     // segue to next controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         //self.navigationItem.title = "Main View"
-
+        
         if segue.identifier == "CategoryRecipeDetails" {
             let nextVC = segue.destination as! RecipeDetails
             // transfer recipe details to nextVC
@@ -156,5 +157,5 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
             else { return }
         }
     }
-
+    
 }

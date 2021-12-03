@@ -19,7 +19,7 @@ final class APICaller {
         case decodingFailed(_ error: Error)
         case unknown(_ error: Error)
     }
-
+    
     // instance of API (singleton)
     static let shared = APICaller()
     
@@ -37,20 +37,20 @@ final class APICaller {
         // check for next page
         // check if we are filtering data based on type
         if !hasType {
-        urlComponents.queryItems = [
-            URLQueryItem(name: "type", value: "public"),
-            URLQueryItem(name: "q", value: searchTerm),
-            URLQueryItem(name: "app_id", value: "c0fbb46c"),
-            URLQueryItem(name: "app_key", value: "6503a4d4eb76389c8be4f5d39ee699b7"),
+            urlComponents.queryItems = [
+                URLQueryItem(name: "type", value: "public"),
+                URLQueryItem(name: "q", value: searchTerm),
+                URLQueryItem(name: "app_id", value: "c0fbb46c"),
+                URLQueryItem(name: "app_key", value: "6503a4d4eb76389c8be4f5d39ee699b7"),
             ]
         }
         else {
-        urlComponents.queryItems = [
-            URLQueryItem(name: "type", value: "public"),
-            URLQueryItem(name: "q", value: searchTerm),
-            URLQueryItem(name: "app_id", value: "c0fbb46c"),
-            URLQueryItem(name: "app_key", value: "6503a4d4eb76389c8be4f5d39ee699b7"),
-            URLQueryItem(name: "dishType", value: type),
+            urlComponents.queryItems = [
+                URLQueryItem(name: "type", value: "public"),
+                URLQueryItem(name: "q", value: searchTerm),
+                URLQueryItem(name: "app_id", value: "c0fbb46c"),
+                URLQueryItem(name: "app_key", value: "6503a4d4eb76389c8be4f5d39ee699b7"),
+                URLQueryItem(name: "dishType", value: type),
             ]
         }
         
@@ -81,20 +81,20 @@ final class APICaller {
                 completion(.failure(.dataMissing))
                 return
             }
-                // we have data, try to decode
-                do {
-                    let result = try JSONDecoder().decode(APIResponse.self, from: data)
-                    
-                    print("Recipes: \(result.hits.count)")
-                    completion(.success(result))
-                }
-                catch {
-                    completion(.failure(.decodingFailed(error)))
-                    return
-                }
+            // we have data, try to decode
+            do {
+                let result = try JSONDecoder().decode(APIResponse.self, from: data)
+                
+                print("Recipes: \(result.hits.count)")
+                completion(.success(result))
             }
-            task.resume()
+            catch {
+                completion(.failure(.decodingFailed(error)))
+                return
+            }
         }
+        task.resume()
+    }
 }
 
 // -MARK: Models
