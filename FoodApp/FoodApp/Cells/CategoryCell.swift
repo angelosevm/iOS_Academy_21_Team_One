@@ -14,6 +14,7 @@ class CategoryCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        contentView.addSubview(categoryCell)
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
     }
     

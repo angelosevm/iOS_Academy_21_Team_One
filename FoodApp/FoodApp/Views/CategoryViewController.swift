@@ -13,7 +13,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     // search controller for typing a custom query
     private let searchVC = UISearchController(searchResultsController: nil)
     var typeSearched: String = "Main course"
-    private var hits = [RecipeLinks]()
+    
+    private var storedHits = [FoodTableViewCellViewModel]()
     private var viewModels = [FoodTableViewCellViewModel]()
     private var index : Int?
     private var currentNumber, totalNumber : Int?
@@ -27,6 +28,12 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
+        
+        // custom back button
+        let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
+        backbutton.tintColor = .black
+        navigationItem.leftBarButtonItem = backbutton
         
         createSearchBar()
         
@@ -57,7 +64,6 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
                 self?.currentNumber = response.to
                 self?.totalNumber = response.count
                 self?.urlConst = response._links.next?.href ?? ""
-                self?.hits = response.hits
                 self?.viewModels = response.hits.compactMap({
                     FoodTableViewCellViewModel(
                         title: $0.recipe.label,
@@ -73,11 +79,11 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
                 })
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
-                    let indexPath = IndexPath(row: 0, section: 0)
+                    //let indexPath = IndexPath(row: 0, section: 0)
                     // catch NSRange Error when scrolling an empty tableView
-                    if self?.viewModels.count != 0 {
-                        self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
-                    }
+//                    if self?.viewModels.count != 0 {
+//                        self?.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+//                    }
                 }
                 
             case.failure(let error):
@@ -104,7 +110,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
-    // -MARK: Table functions
+    // MARK: Table functions
     
     // Table frame equal to the entire view
     override func viewDidLayoutSubviews() {
@@ -136,7 +142,6 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     // when selecting a recipe, transfer user to recipe website using SafariServices
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         // the recipe we select is at index
         index = indexPath.row
         // go to custom details page
@@ -150,7 +155,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     
     // show next page of results
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row + 1 == viewModels.count {
+        if indexPath.row == 10 {
             if currentNumber != totalNumber {
                 getData(query, checkIfConst: true, urlConst: urlConst)
             }

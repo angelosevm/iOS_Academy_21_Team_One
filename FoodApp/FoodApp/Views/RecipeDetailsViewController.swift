@@ -12,6 +12,7 @@ import SafariServices
 class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var recipeImage: UIImageView!
+    @IBOutlet weak var darkImage: UIImageView!
     @IBOutlet weak var recipeType: UILabel!
     @IBOutlet weak var recipeTitle: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
@@ -38,6 +39,8 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         ingredientsTable.delegate = self
         recipeTitle.text = recipeDetails[0].title
         recipeImage.image = UIImage(data: recipeDetails[0].imageData!)
+        darkImage.backgroundColor = .black
+        darkImage.layer.opacity = 0.25
         recipeType.text = recipeDetails[0].subtitle.uppercased()
         timeLabel.text = String(Int(recipeDetails[0].time)) + " minutes"
         caloriesLabel.text = String(Int(recipeDetails[0].calories)/(recipeDetails[0].servings))
@@ -85,7 +88,7 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     }
     
     // when hitting the "View instructions" button go to the recipe website
-    @IBAction func websiteButton(_ sender: UIButton) {
+    @IBAction func viewInstructions(_ sender: UIButton) {
         
         let recipeWebsitePath = recipeDetails[0].recipeURL
         
@@ -98,13 +101,23 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     @IBAction func shareRecipe(_ sender: UIButton) {
         
-        let recipeWebsitePath = recipeDetails[0].shareAs
+//        let bounds = UIScreen.main.bounds
+//        UIGraphicsBeginImageContextWithOptions(bounds.size, true, 0.0)
+//        self.view.drawHierarchy(in: bounds, afterScreenUpdates: false)
+//        let img = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+//        let activityViewController = UIActivityViewController(activityItems: [img!], applicationActivities: nil)
+//        activityViewController.popoverPresentationController?.sourceView = self.view
+//        self.present(activityViewController, animated: true, completion: nil)
         
-        guard let url = URL(string: recipeWebsitePath) else {
-            return
-        }
-        let vc = SFSafariViewController(url: url)
-        present(vc, animated: true)
+        let text = recipeTitle
+        let image = recipeImage
+        let myWebsite = URL(string: recipeDetails[0].recipeURL)
+        let shareAll = [text! , image! , myWebsite!] as [Any]
+        let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+        
     }
     
 }

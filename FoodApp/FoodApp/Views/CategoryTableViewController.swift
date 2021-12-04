@@ -57,12 +57,14 @@ class CategoryTableViewController: UIViewController, UITableViewDelegate, UITabl
         return 100
     }
     
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        self.customTableView.deselectRow(at: indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
         // the category we select is at index
         index = indexPath.row
         // go to category VC
         performSegue(withIdentifier: "CategorySegue", sender: nil)
     }
+      
+    
 
 }

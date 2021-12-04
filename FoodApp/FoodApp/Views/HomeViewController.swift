@@ -14,7 +14,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // search controller for typing a custom query
     private let searchVC = UISearchController(searchResultsController: nil)
     
-    private var hits = [RecipeLinks]()
     private var viewModels = [FoodTableViewCellViewModel]()
     private var index : Int?
     private var currentNumber, totalNumber : Int?
@@ -31,6 +30,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.separatorStyle = .none
+        
 //        let activityFrame = CGRect(x: 200, y: 200, width: 200, height: 200)
 //        let activityIndicator = NVActivityIndicatorView(frame: activityFrame, type: .ballBeat, color: .black, padding: 1.0)
 //        view.addSubview(activityIndicator)
@@ -62,7 +63,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self?.currentNumber = response.to
                 self?.totalNumber = response.count
                 self?.urlConst = response._links.next?.href ?? ""
-                self?.hits = response.hits
                 self?.viewModels = response.hits.compactMap({
                     FoodTableViewCellViewModel(
                         title: $0.recipe.label,
@@ -108,7 +108,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
-    // -MARK: Table functions
+    // MARK: Table functions
     
     // Table frame equal to the entire view
     override func viewDidLayoutSubviews() {
@@ -140,7 +140,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     // when selecting a recipe, transfer user to recipe website using SafariServices
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
         // the recipe we select is at index
         index = indexPath.row
         // go to custom details page

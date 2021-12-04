@@ -96,7 +96,7 @@ class FoodTableViewCell: UITableViewCell {
     // Image (recipe image)
     private let foodImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 6
+        imageView.layer.cornerRadius = 20
         imageView.layer.masksToBounds = true
         imageView.clipsToBounds = true
         imageView.backgroundColor = .systemGray
@@ -122,9 +122,13 @@ class FoodTableViewCell: UITableViewCell {
     // configure cell elements
     override func layoutSubviews() {
         super.layoutSubviews()
-        
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20))
-        contentView.backgroundColor = .offWhiteNew
+        contentView.backgroundColor = .offWhiteLowered
+        contentView.layer.cornerRadius = 20
+        contentView.layer.shadowColor = CGColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+        contentView.layer.shadowOpacity = 0.7
+        contentView.layer.shadowOffset = CGSize(width: 2, height: 2)
+        contentView.layer.shadowRadius = 9
         
         // icons
         let clockView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
@@ -229,6 +233,8 @@ class FoodTableViewCell: UITableViewCell {
             // Fetch image
             URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
                 guard let data = data, error == nil else {
+                    self?.foodImageView.image = UIImage(named: "unnamed")
+                    self?.foodImageView.contentMode = .scaleAspectFill
                     return
                 }
                 viewModel.imageData = data

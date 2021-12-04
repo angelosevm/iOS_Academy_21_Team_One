@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39827166275AAC7600EE2112 /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39827165275AAC7600EE2112 /* StartingViewController.swift */; };
+		39827168275ACA7200EE2112 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39827167275ACA7200EE2112 /* LogInViewController.swift */; };
+		3982716A275AD2EE00EE2112 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39827169275AD2EE00EE2112 /* SignUpViewController.swift */; };
 		3995786B2753CE3E006A01E2 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3995786A2753CE3E006A01E2 /* CategoryViewController.swift */; };
 		3995786D2753CE5E006A01E2 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3995786C2753CE5E006A01E2 /* FavoritesViewController.swift */; };
 		3995786F2753CE6E006A01E2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3995786E2753CE6E006A01E2 /* SettingsViewController.swift */; };
@@ -78,6 +81,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		39827165275AAC7600EE2112 /* StartingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingViewController.swift; sourceTree = "<group>"; };
+		39827167275ACA7200EE2112 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		39827169275AD2EE00EE2112 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		3995786A2753CE3E006A01E2 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		3995786C2753CE5E006A01E2 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		3995786E2753CE6E006A01E2 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -270,6 +276,9 @@
 				3995786A2753CE3E006A01E2 /* CategoryViewController.swift */,
 				399578702753D6B0006A01E2 /* RecipeDetailsViewController.swift */,
 				39CF2DF1275958380075CE94 /* CategoryTableViewController.swift */,
+				39827165275AAC7600EE2112 /* StartingViewController.swift */,
+				39827167275ACA7200EE2112 /* LogInViewController.swift */,
+				39827169275AD2EE00EE2112 /* SignUpViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -463,6 +472,8 @@
 				3995786D2753CE5E006A01E2 /* FavoritesViewController.swift in Sources */,
 				399684FE274D53060020F169 /* AppDelegate.swift in Sources */,
 				39CF2DF42759592E0075CE94 /* CategoryCell.swift in Sources */,
+				39827166275AAC7600EE2112 /* StartingViewController.swift in Sources */,
+				3982716A275AD2EE00EE2112 /* SignUpViewController.swift in Sources */,
 				3996B952274FE7F400249C3C /* FontExtensions.swift in Sources */,
 				3995786F2753CE6E006A01E2 /* SettingsViewController.swift in Sources */,
 				3996D14227513AEF00AD964A /* Colors.swift in Sources */,
@@ -470,6 +481,7 @@
 				39968530274D68C60020F169 /* FoodTableViewCell.swift in Sources */,
 				39D05AF727565AB800518824 /* IngredientCell.swift in Sources */,
 				39968500274D53060020F169 /* SceneDelegate.swift in Sources */,
+				39827168275ACA7200EE2112 /* LogInViewController.swift in Sources */,
 				399578712753D6B0006A01E2 /* RecipeDetailsViewController.swift in Sources */,
 				3996852E274D53C40020F169 /* APICaller.swift in Sources */,
 				39CF2DF2275958380075CE94 /* CategoryTableViewController.swift in Sources */,

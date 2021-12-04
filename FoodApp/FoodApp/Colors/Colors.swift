@@ -14,6 +14,11 @@ extension UIColor {
 }
 
 extension UIColor {
+    static var offWhiteLowered = UIColor(red: 225/255, green: 225/255, blue: 235/255, alpha: 0.3)
+    
+}
+
+extension UIColor {
     static var offWhiteNew = UIColor(red: 153/255, green: 149/255, blue: 112/255, alpha: 0.3)
     
 }
@@ -26,12 +31,12 @@ extension UIColor {
 
 extension UIColor {
     static let darkEnd = UIColor(red: 25/255, green: 25/255, blue: 30/255, alpha: 1)
-    }
+}
 
 
 extension UIColor {
     static let lightStart = UIColor(red: 60/255, green: 160/255, blue: 240/255, alpha: 1)
-    }
+}
 
 extension UIColor {
     static let lightEnd = UIColor(red: 30/255, green: 80/255, blue: 120/255, alpha: 1)
@@ -54,7 +59,7 @@ extension UIColor {
 extension UIView {
     func applyGradient(isVertical: Bool, colorArray: [UIColor]) {
         layer.sublayers?.filter({ $0 is CAGradientLayer }).forEach({ $0.removeFromSuperlayer() })
-         
+        
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = colorArray.map({ $0.cgColor })
         if isVertical {
@@ -76,4 +81,21 @@ extension UIView {
 extension UIColor {
     static let orange1Color = UIColor(red: 255/255, green: 140/255, blue: 43/255, alpha: 1)
     static let orange2Color = UIColor(red: 255/255, green: 99/255, blue: 34/255, alpha: 1)
+}
+
+extension UIView {
+    @discardableResult
+    func applyGradient(colours: [UIColor]) -> CAGradientLayer {
+        return self.applyGradient(colours: colours, locations: nil)
+    }
+    
+    @discardableResult
+    func applyGradient(colours: [UIColor], locations: [NSNumber]?) -> CAGradientLayer {
+        let gradient: CAGradientLayer = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = colours.map { $0.cgColor }
+        gradient.locations = locations
+        self.layer.insertSublayer(gradient, at: 0)
+        return gradient
+    }
 }

@@ -4,50 +4,52 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
     <scenes>
         <!--View Controller-->
         <scene sceneID="EeT-ft-ELk">
             <objects>
                 <viewController id="lSI-1Z-0mt" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Bxx-kl-0g8">
+                    <view key="view" contentMode="scaleAspectFill" id="Bxx-kl-0g8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FLAVOUR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMI-bN-p0s">
-                                <rect key="frame" x="0.0" y="144" width="414" height="72"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flavor2" translatesAutoresizingMaskIntoConstraints="NO" id="ise-cc-LSI">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FLAVOR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hMI-bN-p0s">
+                                <rect key="frame" x="0.0" y="144" width="414" height="41.5"/>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="35"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flavour" translatesAutoresizingMaskIntoConstraints="NO" id="ise-cc-LSI">
-                                <rect key="frame" x="0.0" y="266" width="414" height="500"/>
-                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="W9D-MR-xKD"/>
-                        <color key="backgroundColor" systemColor="systemOrangeColor"/>
                         <constraints>
-                            <constraint firstItem="ise-cc-LSI" firstAttribute="leading" secondItem="W9D-MR-xKD" secondAttribute="leading" id="47j-vO-UCP"/>
                             <constraint firstItem="hMI-bN-p0s" firstAttribute="top" secondItem="W9D-MR-xKD" secondAttribute="top" constant="100" id="A7x-Yu-kig"/>
+                            <constraint firstItem="ise-cc-LSI" firstAttribute="leading" secondItem="Bxx-kl-0g8" secondAttribute="leading" id="Ac9-jz-jFy"/>
+                            <constraint firstItem="ise-cc-LSI" firstAttribute="top" secondItem="Bxx-kl-0g8" secondAttribute="top" id="Apg-z5-fJO"/>
                             <constraint firstItem="hMI-bN-p0s" firstAttribute="leading" secondItem="W9D-MR-xKD" secondAttribute="leading" id="Qav-bJ-p7Z"/>
-                            <constraint firstItem="ise-cc-LSI" firstAttribute="top" secondItem="hMI-bN-p0s" secondAttribute="bottom" constant="50" id="oXu-dx-0vp"/>
+                            <constraint firstAttribute="trailing" secondItem="ise-cc-LSI" secondAttribute="trailing" id="hQo-2d-QbN"/>
+                            <constraint firstAttribute="bottom" secondItem="ise-cc-LSI" secondAttribute="bottom" id="lY3-Ox-wmn"/>
                             <constraint firstItem="W9D-MR-xKD" firstAttribute="trailing" secondItem="hMI-bN-p0s" secondAttribute="trailing" id="opc-i4-619"/>
-                            <constraint firstItem="W9D-MR-xKD" firstAttribute="trailing" secondItem="ise-cc-LSI" secondAttribute="trailing" id="wzJ-vm-m2b"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Gvt-HO-3cd"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V3V-3m-rxv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="45" y="256"/>
+            <point key="canvasLocation" x="44.927536231884062" y="255.80357142857142"/>
         </scene>
     </scenes>
     <resources>
-        <image name="flavour" width="750" height="500"/>
-        <systemColor name="systemOrangeColor">
-            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
+        <image name="flavor2" width="715" height="1920"/>
     </resources>
 </document>

@@ -7,7 +7,7 @@
 
 import Foundation
 
-// -MARK: API Caller
+// MARK: API Caller
 
 final class APICaller {
     
@@ -62,7 +62,6 @@ final class APICaller {
         if const {
             url = URL(string: urlConst)!
         }
-        print(url)
         // create task
         let task = URLSession.shared.dataTask(with: url) {data, urlResponse, error in
             // check for general error
@@ -97,7 +96,7 @@ final class APICaller {
     }
 }
 
-// -MARK: Models
+// MARK: Models
 
 struct APIResponse: Codable {
     let hits: [RecipeLinks]
