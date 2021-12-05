@@ -21,6 +21,7 @@ class FoodTableViewCellViewModel {
     let ingredients: [String]
     let recipeURL: String
     let shareAs: String
+    var isFavorite: Bool
     
     init(
         title: String,
@@ -31,7 +32,8 @@ class FoodTableViewCellViewModel {
         servings: Int,
         ingredients: [String],
         recipeURL: String,
-        shareAs: String
+        shareAs: String,
+        isFavorite: Bool
     ) {
         self.title = title
         self.subtitle = subtitle
@@ -42,6 +44,7 @@ class FoodTableViewCellViewModel {
         self.ingredients = ingredients
         self.recipeURL = recipeURL
         self.shareAs = shareAs
+        self.isFavorite = false
     }
 }
 

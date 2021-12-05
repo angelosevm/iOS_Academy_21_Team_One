@@ -10,12 +10,15 @@ import UIKit
 class LogInViewController: UIViewController {
     
     @IBOutlet weak var logInButton: UIButton!
+    @IBOutlet weak var emailTextField: UITextField!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
         backbutton.tintColor = .black
         navigationItem.leftBarButtonItem = backbutton
+        emailTextField.keyboardType = .emailAddress
     }
     
     override func viewDidLayoutSubviews() {

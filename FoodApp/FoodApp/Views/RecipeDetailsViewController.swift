@@ -22,21 +22,27 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     @IBOutlet weak var instructionsButton: UIButton!
     @IBOutlet weak var shareLink: UIButton!
     @IBOutlet weak var ingredientsTable: UITableView!
+    @IBOutlet weak var topView: UIView!
     
+    var index: Int?
     var recipeDetails: [FoodTableViewCellViewModel] = []
+    let gradientLayer = CAGradientLayer()
+    let gradientLayer2 = CAGradientLayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.view.backgroundColor = .offWhite
-//        self.view.layer.shadowColor = CGColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
-//        self.view.layer.shadowOffset = CGSize(width: 10, height: 10)
-//        self.view.layer.shadowOpacity = 1
-//        self.view.layer.shadowRadius = 1
         
         // custom back button
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
         backbutton.tintColor = .white
         navigationItem.leftBarButtonItem = backbutton
+        // favorite button
+        let favoriteButton = UIBarButtonItem(image: UIImage(named: "ic_favorites_grey"), style: .plain, target: self, action: #selector(makeFavorite))
+        favoriteButton.tintColor = .white
+        
+        navigationItem.rightBarButtonItem = favoriteButton
+        
+        self.navigationController?.isNavigationBarHidden = false
         
         // fill labels and image
         ingredientsTable.dataSource = self
@@ -51,6 +57,23 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         servingsLabel.text = String(recipeDetails[0].servings) + " people"
         ingredientsTitleLabel.text = "INGREDIENTS"
         ingredientsTable.reloadData()
+        
+        // define gradients
+        let color1 = UIColor(red: 222/255, green: 187/255, blue: 151/255, alpha: 0.2).cgColor
+        let color2 = UIColor(red: 222/255, green: 203/255, blue: 151/255, alpha: 0.2).cgColor
+        gradientLayer.colors = [color1, color2]
+        gradientLayer.locations = [0, 1]
+        gradientLayer2.colors = [UIColor.clear.cgColor, UIColor.white.cgColor, UIColor.clear.cgColor]
+        gradientLayer2.locations = [0, 1]
+        // add gradients
+        self.view.layer.addSublayer(gradientLayer)
+        self.topView.layer.masksToBounds = true
+        self.topView.layer.shadowColor = CGColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+        self.topView.layer.shadowOffset = CGSize(width: 2, height: 2)
+        self.topView.layer.shadowOpacity = 0.6
+        self.topView.layer.shadowRadius = 30
+        self.topView.layer.cornerCurve = .continuous
+        self.topView.layer.addSublayer(gradientLayer2)
         
         // icons
         let clockView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
@@ -74,6 +97,35 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         servingsView.centerYAnchor.constraint(equalTo: servingsLabel.centerYAnchor, constant: 0).isActive = true
         servingsView.rightAnchor.constraint(equalTo: servingsLabel.leftAnchor, constant: 20).isActive = true
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // make favorite persist
+        self.navigationItem.rightBarButtonItem?.tintColor = recipeDetails[0].isFavorite ? UIColor.red : .white
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        gradientLayer.frame = view.bounds
+        gradientLayer2.frame = topView.bounds
+    }
+    
+    @objc func makeFavorite() {
+        changeFavoriteState()
+        let favoritesVC = self.storyboard?.instantiateViewController(withIdentifier: "Favorites") as! FavoritesViewController
+        if recipeDetails[0].isFavorite {
+            favoritesVC.printme()
+            favoritesVC.viewModels.append(recipeDetails[0])
+        } else {
+            favoritesVC.viewModels.append(recipeDetails[0])
+        }
+    }
+    
+    func changeFavoriteState() {
+        let hasFavorite = recipeDetails[0].isFavorite
+        recipeDetails[0].isFavorite = !hasFavorite
+        self.navigationItem.rightBarButtonItem?.tintColor = recipeDetails[0].isFavorite ? UIColor.red : .white
     }
     
     // table view shows ingredient list
@@ -103,6 +155,7 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         present(vc, animated: true)
     }
     
+    // when hitting the "Share this recipe" button, show toolbar for sharing
     @IBAction func shareRecipe(_ sender: UIButton) {
         
 //        let bounds = UIScreen.main.bounds

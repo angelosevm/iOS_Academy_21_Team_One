@@ -55,6 +55,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZzO-zG-P2f" userLabel="TopView">
+                                <rect key="frame" x="0.0" y="261" width="414" height="635"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Jwm-p3-5Id">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="256"/>
                                 <constraints>
@@ -148,7 +152,7 @@
                                 </prototypes>
                             </tableView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="gry-pJ-B8K">
-                                <rect key="frame" x="0.0" y="772" width="414" height="31"/>
+                                <rect key="frame" x="0.0" y="762" width="414" height="31"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3YX-WG-fHc">
                                         <rect key="frame" x="0.0" y="0.0" width="207" height="31"/>
@@ -197,8 +201,10 @@
                             <constraint firstItem="MOR-Qc-z1t" firstAttribute="trailing" secondItem="YXf-q2-fvv" secondAttribute="trailing" constant="16" id="3LS-UP-zb9"/>
                             <constraint firstItem="uxs-mO-YGV" firstAttribute="leading" secondItem="MOR-Qc-z1t" secondAttribute="leading" id="6Rc-J6-HgT"/>
                             <constraint firstItem="1Xe-qg-cDQ" firstAttribute="top" secondItem="AA5-Ug-s61" secondAttribute="bottom" constant="8" id="Hcb-dM-QlD"/>
+                            <constraint firstAttribute="bottom" secondItem="ZzO-zG-P2f" secondAttribute="bottom" id="I3c-2l-GHA"/>
+                            <constraint firstItem="ZzO-zG-P2f" firstAttribute="top" secondItem="Jwm-p3-5Id" secondAttribute="bottom" constant="5" id="ILX-9I-WcL"/>
                             <constraint firstItem="AA5-Ug-s61" firstAttribute="top" secondItem="28T-2T-JDq" secondAttribute="top" id="J8H-HH-y0r"/>
-                            <constraint firstItem="gry-pJ-B8K" firstAttribute="top" secondItem="uxs-mO-YGV" secondAttribute="bottom" constant="20" id="Kex-lG-73A"/>
+                            <constraint firstItem="gry-pJ-B8K" firstAttribute="top" secondItem="uxs-mO-YGV" secondAttribute="bottom" constant="10" id="Kex-lG-73A"/>
                             <constraint firstItem="MOR-Qc-z1t" firstAttribute="trailing" secondItem="1Xe-qg-cDQ" secondAttribute="trailing" constant="16" id="L2B-X4-tLs"/>
                             <constraint firstItem="1Xe-qg-cDQ" firstAttribute="top" secondItem="Jwm-p3-5Id" secondAttribute="bottom" constant="8" id="LCN-c7-pqF"/>
                             <constraint firstItem="MOR-Qc-z1t" firstAttribute="trailing" secondItem="AA5-Ug-s61" secondAttribute="trailing" id="OQH-Ik-KNz"/>
@@ -209,6 +215,7 @@
                             <constraint firstItem="EqQ-kG-qdI" firstAttribute="leading" secondItem="MOR-Qc-z1t" secondAttribute="leading" constant="16" id="SpX-KM-bVs"/>
                             <constraint firstItem="IiS-Fq-9ic" firstAttribute="leading" secondItem="MOR-Qc-z1t" secondAttribute="leading" constant="16" id="TkR-Wz-lH8"/>
                             <constraint firstItem="Jwm-p3-5Id" firstAttribute="leading" secondItem="MOR-Qc-z1t" secondAttribute="leading" id="UKv-vE-nRs"/>
+                            <constraint firstItem="ZzO-zG-P2f" firstAttribute="leading" secondItem="MOR-Qc-z1t" secondAttribute="leading" id="VJU-1s-7fS"/>
                             <constraint firstItem="MOR-Qc-z1t" firstAttribute="trailing" secondItem="IiS-Fq-9ic" secondAttribute="trailing" constant="16" id="WRF-LJ-00w"/>
                             <constraint firstItem="MOR-Qc-z1t" firstAttribute="trailing" secondItem="EqQ-kG-qdI" secondAttribute="trailing" constant="16" id="ZUE-Pf-iTu"/>
                             <constraint firstItem="YXf-q2-fvv" firstAttribute="leading" secondItem="MOR-Qc-z1t" secondAttribute="leading" constant="16" id="hp7-Yv-sqP"/>
@@ -216,6 +223,7 @@
                             <constraint firstItem="uxs-mO-YGV" firstAttribute="trailing" secondItem="MOR-Qc-z1t" secondAttribute="trailing" id="krH-Uu-g7H"/>
                             <constraint firstItem="uxs-mO-YGV" firstAttribute="top" secondItem="IiS-Fq-9ic" secondAttribute="bottom" id="lwI-hH-FRe"/>
                             <constraint firstItem="EqQ-kG-qdI" firstAttribute="top" secondItem="1Xe-qg-cDQ" secondAttribute="bottom" constant="8" id="nnM-dp-dXy"/>
+                            <constraint firstItem="ZzO-zG-P2f" firstAttribute="trailing" secondItem="MOR-Qc-z1t" secondAttribute="trailing" id="skd-x2-S99"/>
                             <constraint firstAttribute="trailing" secondItem="Jwm-p3-5Id" secondAttribute="trailing" id="uAw-fe-nnj"/>
                             <constraint firstAttribute="bottom" secondItem="uxs-mO-YGV" secondAttribute="bottom" constant="144" id="wW9-W3-KfQ"/>
                         </constraints>
@@ -233,11 +241,12 @@
                         <outlet property="servingsLabel" destination="tyX-K6-h1B" id="kNE-RY-43R"/>
                         <outlet property="shareLink" destination="DP7-rb-VwO" id="I9w-wg-3fu"/>
                         <outlet property="timeLabel" destination="xXd-44-bXG" id="U19-3L-vZy"/>
+                        <outlet property="topView" destination="ZzO-zG-P2f" id="Tgp-8W-0rG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qnC-Yy-W5w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4252.1739130434789" y="-304.01785714285711"/>
+            <point key="canvasLocation" x="5190" y="129"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="14W-1k-KTM">
@@ -268,7 +277,7 @@
         <!--Item 3-->
         <scene sceneID="HrF-9K-WcU">
             <objects>
-                <viewController id="4CF-D5-4bN" userLabel="Item 3" customClass="FavoritesViewController" customModule="FoodApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Favorites" id="4CF-D5-4bN" userLabel="Item 3" customClass="FavoritesViewController" customModule="FoodApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="PY6-0s-6I7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -276,10 +285,13 @@
                         <color key="backgroundColor" systemColor="systemTealColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="y68-P9-wI4"/>
+                    <connections>
+                        <segue destination="Gat-jA-3ps" kind="show" identifier="FavoritesRecipeDetails" id="I5O-ff-hdj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Tq1-Ar-Nq5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2276.8115942028985" y="1082.8125"/>
+            <point key="canvasLocation" x="3322" y="1083"/>
         </scene>
         <!--Item 1-->
         <scene sceneID="xfz-9Z-a2E">
@@ -370,9 +382,14 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aRz-rf-DsW" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Favorites" image="ic_favorites_grey" selectedImage="ic_favorites_orange" id="r3V-LD-tra" userLabel="Favourites"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="TrF-cH-2n7">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="TrF-cH-2n7">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
+                            <color key="textShadowColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <offsetWrapper key="textShadowOffset" horizontal="-1" vertical="-1"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -415,14 +432,14 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" id="RV5-oG-sIr" customClass="CategoryCell" customModule="FoodApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="46"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="46.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RV5-oG-sIr" id="S0k-pW-Es0">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="46"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="46.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gi-2H-7EW">
-                                                    <rect key="frame" x="20" y="11" width="374" height="24"/>
+                                                    <rect key="frame" x="20" y="11" width="374" height="24.5"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -549,6 +566,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="rT5-4r-THy"/>
                     <connections>
+                        <outlet property="emailTextField" destination="G3B-qe-S7M" id="smV-SB-11K"/>
                         <outlet property="signUpButton" destination="6e0-YK-yil" id="eu1-Oe-JJo"/>
                     </connections>
                 </viewController>
@@ -652,6 +670,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ig0-Zw-p3I"/>
                     <connections>
+                        <outlet property="emailTextField" destination="62X-Ak-Bsl" id="wcX-PL-2zg"/>
                         <outlet property="logInButton" destination="duk-Hq-RMc" id="W8u-dT-L23"/>
                     </connections>
                 </viewController>
@@ -803,7 +822,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="5vQ-bE-x10"/>
+        <segue reference="I5O-ff-hdj"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ic_favorites_grey" width="24" height="24"/>

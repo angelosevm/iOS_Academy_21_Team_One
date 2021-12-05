@@ -15,7 +15,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     
     private let searchVC = UISearchController(searchResultsController: nil)
     var typeSearched: String = "Main course"
-    
+    private let scrollToTopButton = UIButton(type: .custom)
     private var viewModels = [FoodTableViewCellViewModel]()
     private var index : Int?
     private var totalNumber : Int?
@@ -46,6 +46,18 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.dataSource = self
         tableView.separatorStyle = .none
         
+        // create scroll to top button
+        scrollToTopButton.frame = CGRect(x: 350, y: 770, width: 40, height: 40)
+        scrollToTopButton.layer.cornerRadius = 0.5 * scrollToTopButton.bounds.size.width
+        scrollToTopButton.clipsToBounds = true
+        scrollToTopButton.setBackgroundImage(UIImage(named: "scrollToTopButton"), for: .normal)
+        scrollToTopButton.backgroundColor = .white
+        scrollToTopButton.addTarget(self, action: #selector(scrollToTopButtonPressed), for: .touchUpInside)
+        view.addSubview(scrollToTopButton)
+        
+        // hide navigation contoller when scrolling
+        self.navigationController?.hidesBarsOnSwipe = true
+        
         indicatorView.startAnimating()
         
         // custom back button
@@ -57,6 +69,16 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         query = "Main"
         // Default search when launching app
         getData(query!, checkIfConst: false, urlConst: "")
+    }
+    
+    @objc func scrollToTopButtonPressed() {
+        UIButton.animate(withDuration: 0.5) {
+            self.scrollToTopButton.backgroundColor = .systemOrange
+            self.scrollToTopButton.backgroundColor = .white
+        }
+        let topRow = IndexPath(row: 0, section: 0)
+        self.tableView.scrollToRow(at: topRow,at: .top, animated: true)
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     // when the search button is clicked, perform an API call
@@ -99,7 +121,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
                             servings: $0.recipe.yield,
                             ingredients: $0.recipe.ingredientLines,
                             recipeURL: $0.recipe.url,
-                            shareAs: $0.recipe.shareAs
+                            shareAs: $0.recipe.shareAs,
+                            isFavorite: false
                         )
                     })
                     // if this isn't the first page calculate the indexPaths to update the table view
@@ -166,12 +189,11 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     
     // segue to next controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //self.navigationItem.title = "Main View"
-        
         if segue.identifier == "CategoryRecipeDetails" {
             let nextVC = segue.destination as! RecipeDetails
             // transfer recipe details to nextVC
             guard let index = index else { return }
+            nextVC.index = index
             nextVC.recipeDetails.append(viewModels[index])
         }
     }
