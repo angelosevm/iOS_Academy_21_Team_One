@@ -23,6 +23,31 @@ class StartingViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        // define colors
+        let colorPink = UIColor(red: 243/255, green: 129/255, blue: 129/255, alpha: 0.95).cgColor
+        let colorPurple = UIColor(red: 249/255, green: 120/255, blue: 249/255, alpha: 0.98).cgColor
+        // create the gradient layer
+        let gradient = CAGradientLayer()
+        gradient.frame = self.view.bounds
+        gradient.startPoint = CGPoint(x:0.0, y:0.5)
+        gradient.endPoint = CGPoint(x:1.0, y:0.5)
+        gradient.colors = [colorPink, colorPurple]
+        gradient.locations =  [-0.5, 1.5]
+        // create animation
+        let animation = CABasicAnimation(keyPath: "colors")
+        animation.fromValue = [UIColor.white.cgColor, colorPink]
+        animation.toValue = [UIColor.systemMint.cgColor, colorPurple]
+        animation.duration = 5.0
+        animation.autoreverses = true
+        animation.repeatCount = Float.infinity
+        
+        // add the animation to the gradient
+        gradient.add(animation, forKey: nil)
+        
+        // add the gradient to the view
+        self.view.layer.insertSublayer(gradient, at: 0)
+        
+        //view.applyGradient(isVertical: true, colorArray: [.orange1Color,.orange2Color])
         titleLabel.shadowColor = .customTextBlack
         titleLabel.font = UIFont.robotoBold(size: 40)
         titleLabel.shadowOffset = CGSize(width: 2, height: 3)

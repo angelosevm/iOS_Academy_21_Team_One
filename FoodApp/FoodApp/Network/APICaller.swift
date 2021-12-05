@@ -101,6 +101,7 @@ final class APICaller {
 struct APIResponse: Codable {
     let hits: [RecipeLinks]
     let _links: NextLink
+    let from: Int
     let to: Int
     let count: Int
 }

@@ -27,7 +27,11 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .offWhite
+//        self.view.backgroundColor = .offWhite
+//        self.view.layer.shadowColor = CGColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
+//        self.view.layer.shadowOffset = CGSize(width: 10, height: 10)
+//        self.view.layer.shadowOpacity = 1
+//        self.view.layer.shadowRadius = 1
         
         // custom back button
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))

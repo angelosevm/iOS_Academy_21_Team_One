@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: View Model
+
 // Hold imageView data and url to be cached when downloaded so that it doesn't redownload when scrolling offscreen
 class FoodTableViewCellViewModel {
     let title: String
@@ -42,6 +44,8 @@ class FoodTableViewCellViewModel {
         self.shareAs = shareAs
     }
 }
+
+// MARK: Cell view configuration
 
 class FoodTableViewCell: UITableViewCell {
 
@@ -126,7 +130,7 @@ class FoodTableViewCell: UITableViewCell {
         contentView.backgroundColor = .offWhiteLowered
         contentView.layer.cornerRadius = 20
         contentView.layer.shadowColor = CGColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
-        contentView.layer.shadowOpacity = 0.7
+        contentView.layer.shadowOpacity = 0.6
         contentView.layer.shadowOffset = CGSize(width: 2, height: 2)
         contentView.layer.shadowRadius = 9
         
@@ -214,22 +218,30 @@ class FoodTableViewCell: UITableViewCell {
         servingsLabel.text = nil
     }
     
-    func configure(with viewModel: FoodTableViewCellViewModel) {
+    // MARK: Cell data configuration
+    
+    func configure(with viewModel: FoodTableViewCellViewModel?) {
         // Fill labels
-        foodTitleLabel.text = viewModel.title
-        subtitleLabel.text = viewModel.subtitle.uppercased()
+        foodTitleLabel.text = viewModel?.title
+        subtitleLabel.text = viewModel?.subtitle.uppercased()
         //let attachment = NSTextAttachment()
         //attachment.image = UIImage(systemName: "time")
-        timeLabel.text = String(Int(viewModel.time)) + " minutes"
+        timeLabel.text = String(Int(viewModel?.time ?? 0)) + " minutes"
         //timeLabel.text.append(attachment)
-        caloriesLabel.text = String(Int(viewModel.calories)/(viewModel.servings))
-        servingsLabel.text = String(viewModel.servings) + " people"
+        let numberOfServings = viewModel?.servings ?? 0
+        if numberOfServings == 0 {
+            caloriesLabel.text = String(Int(viewModel?.calories ?? 0))
+        }
+        else {
+            caloriesLabel.text = String(Int(viewModel?.calories ?? 0)/(numberOfServings))
+        }
+        servingsLabel.text = String(viewModel?.servings ?? 0) + " people"
         
         // Configure image
-        if let data = viewModel.imageData {
+        if let data = viewModel?.imageData {
             foodImageView.image = UIImage(data: data)
         }
-        else if let url = viewModel.imageURL {
+        else if let url = viewModel?.imageURL {
             // Fetch image
             URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
                 guard let data = data, error == nil else {
@@ -237,7 +249,7 @@ class FoodTableViewCell: UITableViewCell {
                     self?.foodImageView.contentMode = .scaleAspectFill
                     return
                 }
-                viewModel.imageData = data
+                viewModel?.imageData = data
                 DispatchQueue.main.async {
                     self?.foodImageView.image = UIImage(data: data)
                     self?.foodImageView.contentMode = .scaleAspectFill
