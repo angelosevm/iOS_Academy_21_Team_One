@@ -10,6 +10,8 @@ import UIKit
 class LogInViewController: UIViewController {
     
     @IBOutlet weak var logInButton: UIButton!
+    @IBOutlet weak var userEmailTextfield: UITextField!
+    @IBOutlet weak var userPasswordTextfield: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +32,41 @@ class LogInViewController: UIViewController {
     }
     
     @IBAction func logIn(_ sender: Any) {
+//        let viewController = storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+//        view.window?.rootViewController = viewController
+//        view.window?.makeKeyAndVisible()
+                
+        let userEmail = userEmailTextfield.text
+        let userPassword = userPasswordTextfield.text
+        
+        // get email and password
+        let emailStored = UserDefaults.standard.string(forKey: "userEmail")
+        let passwordStored = UserDefaults.standard.string(forKey: "userPassword")
+        
+        // check if email entered exists
+        if emailStored == userEmail {
+            // check if password entered exists
+            if passwordStored == userPassword {
+                // Login
+                UserDefaults.standard.set(true, forKey: "isUserLoggedIn")
+                UserDefaults.standard.synchronize()
+            } else { displayAlert(message: "Password is incorrect")
+                return
+            }
+        } else { displayAlert(message: "Email is incorrect")
+            return
+        }
+        
+        // Function that displays alert messages
+        func displayAlert(message: String) {
+            let alertMessage = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertController.Style.alert)
+            
+            let okAction = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil)
+            
+            alertMessage.addAction(okAction)
+            self.present(alertMessage, animated: true, completion: nil)
+        }
+        
         let viewController = storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
         view.window?.rootViewController = viewController
         view.window?.makeKeyAndVisible()
