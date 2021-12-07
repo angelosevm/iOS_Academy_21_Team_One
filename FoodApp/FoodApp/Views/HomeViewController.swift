@@ -109,6 +109,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self?.urlConst = response._links.next?.href ?? ""
                     self?.viewModels += response.hits.compactMap({
                         FoodTableViewCellViewModel(
+                            id: UUID(),
                             title: $0.recipe.label,
                             subtitle: $0.recipe.dishType?[0] ?? "no dish type",
                             imageURL: URL(string: $0.recipe.image),

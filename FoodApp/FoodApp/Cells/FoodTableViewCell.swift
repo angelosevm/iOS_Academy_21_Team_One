@@ -11,6 +11,8 @@ import UIKit
 
 // Hold imageView data and url to be cached when downloaded so that it doesn't redownload when scrolling offscreen
 class FoodTableViewCellViewModel {
+    
+    let id: UUID
     let title: String
     let subtitle: String
     let imageURL: URL?
@@ -24,6 +26,7 @@ class FoodTableViewCellViewModel {
     var isFavorite: Bool
     
     init(
+        id: UUID,
         title: String,
         subtitle: String,
         imageURL: URL?,
@@ -35,6 +38,7 @@ class FoodTableViewCellViewModel {
         shareAs: String,
         isFavorite: Bool
     ) {
+        self.id = UUID()
         self.title = title
         self.subtitle = subtitle
         self.imageURL = imageURL

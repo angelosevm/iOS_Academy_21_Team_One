@@ -113,12 +113,12 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     @objc func makeFavorite() {
         changeFavoriteState()
-        let favoritesVC = self.storyboard?.instantiateViewController(withIdentifier: "Favorites") as! FavoritesViewController
-        if recipeDetails[0].isFavorite {
-            favoritesVC.printme()
-            favoritesVC.viewModels.append(recipeDetails[0])
+        if recipeDetails[0].isFavorite && !Favorites.sharedFavorites.containsElement(element: recipeDetails[0]){
+            Favorites.sharedFavorites.favoritesArray.append(recipeDetails[0])
+            print(Favorites.sharedFavorites.favoritesArray)
         } else {
-            favoritesVC.viewModels.append(recipeDetails[0])
+            Favorites.sharedFavorites.favoritesArray.remove(at: Favorites.sharedFavorites.indexElement(element: recipeDetails[0]))
+            print(Favorites.sharedFavorites.favoritesArray)
         }
     }
     
