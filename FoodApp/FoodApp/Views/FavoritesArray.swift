@@ -7,6 +7,7 @@
 
 import UIKit
 
+// used to transfer data between tabs
 class Favorites {
     static let sharedFavorites = Favorites()
     var favoritesArray = [FoodTableViewCellViewModel]()
