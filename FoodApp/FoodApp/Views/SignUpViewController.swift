@@ -47,17 +47,16 @@ class SignUpViewController: UIViewController {
             return
         }
         
-//        // Check if the email already exists
-//        if (userEmail != nil) == isKeyPresentInUserDefaults(key: "userEmail") {
-//            displayAlert(message: "Email already exists")
-//            return
-//        } else {
-//            UserDefaults.standard.set(userEmail, forKey: "userEmail")
-//        }
-        
         // Store users in user defaults
         UserDefaults.standard.set(userName, forKey: "userName")
-        UserDefaults.standard.set(userEmail, forKey: "userEmail")
+        // Check if email already exists
+        let emailStored = UserDefaults.standard.string(forKey: "userEmail")
+        if userEmail == emailStored {
+            displayAlert(message: "Email already exists. Please choose another one.")
+            return
+        } else {
+            UserDefaults.standard.set(userEmail, forKey: "userEmail")
+        }
         UserDefaults.standard.set(userPassword, forKey: "userPassword")
         UserDefaults.standard.set(uuid, forKey: "UUID")
         UserDefaults.standard.synchronize()
@@ -81,12 +80,5 @@ class SignUpViewController: UIViewController {
             alertMessage.addAction(okAction)
             self.present(alertMessage, animated: true, completion: nil)
         }
-        
-        // A function that checks whether a key already exists in user defaults
-//        func isKeyPresentInUserDefaults(key: String) -> Bool {
-//            return UserDefaults.standard.object(forKey: key) != nil
-//        }
-        
-        
     }
 }

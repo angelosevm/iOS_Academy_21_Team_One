@@ -332,61 +332,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="86" translatesAutoresizingMaskIntoConstraints="NO" id="TKJ-rX-weQ">
-                                <rect key="frame" x="20" y="185" width="374" height="478"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="ISO-7I-dB2">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="160"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="160" id="gqq-3P-gRE"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" text="Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jhc-Jv-Tnk">
-                                        <rect key="frame" x="10" y="246" width="354" height="31"/>
-                                        <color key="tintColor" systemColor="linkColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="25"/>
-                                        <color key="highlightedColor" systemColor="systemBlueColor"/>
-                                        <color key="shadowColor" systemColor="labelColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="10"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
-                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hYq-CK-AmY">
-                                        <rect key="frame" x="111" y="363" width="152" height="116"/>
-                                        <segments>
-                                            <segment title="Light"/>
-                                            <segment title="Dark"/>
-                                            <segment title="Blue"/>
-                                        </segments>
-                                        <connections>
-                                            <action selector="segmentChanged:" destination="Kg7-o1-72s" eventType="valueChanged" id="gy4-PK-oqx"/>
-                                        </connections>
-                                    </segmentedControl>
-                                </subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="1Rz-ez-ggZ">
+                                <rect key="frame" x="132" y="190" width="150" height="150"/>
                                 <constraints>
-                                    <constraint firstItem="Jhc-Jv-Tnk" firstAttribute="leading" secondItem="TKJ-rX-weQ" secondAttribute="leading" constant="10" id="Q95-XB-X1U"/>
-                                    <constraint firstAttribute="trailing" secondItem="Jhc-Jv-Tnk" secondAttribute="trailing" constant="10" id="vfr-27-Zz3"/>
+                                    <constraint firstAttribute="height" constant="150" id="OTz-hC-k9u"/>
+                                    <constraint firstAttribute="width" constant="150" id="psC-lH-AgN"/>
                                 </constraints>
-                            </stackView>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userNameLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pc8-0s-N8s">
+                                <rect key="frame" x="0.0" y="380" width="414" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userEmailLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xah-20-CWG">
+                                <rect key="frame" x="0.0" y="441" width="414" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="pzL-Xb-tjt"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="TKJ-rX-weQ" firstAttribute="leading" secondItem="6PU-96-iHj" secondAttribute="leading" constant="20" id="bQE-2j-0Dh"/>
-                            <constraint firstItem="pzL-Xb-tjt" firstAttribute="bottom" secondItem="TKJ-rX-weQ" secondAttribute="bottom" constant="150" id="nPm-EK-4rf"/>
-                            <constraint firstItem="pzL-Xb-tjt" firstAttribute="trailing" secondItem="TKJ-rX-weQ" secondAttribute="trailing" constant="20" id="nf7-5p-y9N"/>
-                            <constraint firstItem="TKJ-rX-weQ" firstAttribute="top" secondItem="pzL-Xb-tjt" secondAttribute="top" constant="45" id="qB3-CH-8pt"/>
+                            <constraint firstItem="Xah-20-CWG" firstAttribute="top" secondItem="Pc8-0s-N8s" secondAttribute="bottom" constant="40" id="KRQ-iv-6Aw"/>
+                            <constraint firstItem="Pc8-0s-N8s" firstAttribute="top" secondItem="1Rz-ez-ggZ" secondAttribute="bottom" constant="40" id="Ne7-w4-Svu"/>
+                            <constraint firstItem="pzL-Xb-tjt" firstAttribute="trailing" secondItem="Pc8-0s-N8s" secondAttribute="trailing" id="ZzR-dn-Q9e"/>
+                            <constraint firstItem="Xah-20-CWG" firstAttribute="leading" secondItem="pzL-Xb-tjt" secondAttribute="leading" id="h08-dK-JbS"/>
+                            <constraint firstItem="1Rz-ez-ggZ" firstAttribute="top" secondItem="pzL-Xb-tjt" secondAttribute="top" constant="50" id="joz-JX-kF1"/>
+                            <constraint firstItem="pzL-Xb-tjt" firstAttribute="trailing" secondItem="Xah-20-CWG" secondAttribute="trailing" id="n3Z-DX-Z2F"/>
+                            <constraint firstItem="Pc8-0s-N8s" firstAttribute="leading" secondItem="pzL-Xb-tjt" secondAttribute="leading" id="ol3-YY-dEY"/>
+                            <constraint firstItem="1Rz-ez-ggZ" firstAttribute="centerX" secondItem="6PU-96-iHj" secondAttribute="centerX" id="ptH-aH-L2P"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="Aie-tN-smv"/>
                     <connections>
-                        <outlet property="PersonEmail" destination="Jhc-Jv-Tnk" id="2aP-7v-SxC"/>
-                        <outlet property="photo" destination="ISO-7I-dB2" id="7K3-dC-1tK"/>
-                        <outlet property="themeSegment" destination="hYq-CK-AmY" id="KZe-1Y-PUf"/>
+                        <outlet property="userAvatar" destination="1Rz-ez-ggZ" id="oBk-lA-Vxj"/>
+                        <outlet property="userEmailLabel" destination="Xah-20-CWG" id="Mt1-lk-wk3"/>
+                        <outlet property="userNameLabel" destination="Pc8-0s-N8s" id="0D1-2b-o0w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lED-oS-VHB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -468,14 +452,14 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CategoryCell" id="RV5-oG-sIr" customClass="CategoryCell" customModule="FoodApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.5" width="414" height="46"/>
+                                        <rect key="frame" x="0.0" y="44.5" width="414" height="46.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RV5-oG-sIr" id="S0k-pW-Es0">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="46"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="46.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gi-2H-7EW">
-                                                    <rect key="frame" x="20" y="11" width="374" height="24"/>
+                                                    <rect key="frame" x="20" y="11" width="374" height="24.5"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Bold" family="Roboto" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -876,12 +860,6 @@
         <namedColor name="AccentColor">
             <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="linkColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="opaqueSeparatorColor">
             <color red="0.77647058823529413" green="0.77647058823529413" blue="0.78431372549019607" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
@@ -890,9 +868,6 @@
         </systemColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
-        <systemColor name="systemBlueColor">
-            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemIndigoColor">
             <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
