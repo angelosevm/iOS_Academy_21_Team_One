@@ -97,9 +97,5 @@ class SignUpViewController: UIViewController {
             alertMessage.addAction(okAction)
             self.present(alertMessage, animated: true, completion: nil)
         }
-    
-//        let viewController = storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-//        view.window?.rootViewController = viewController
-//        view.window?.makeKeyAndVisible()
     }
 }
