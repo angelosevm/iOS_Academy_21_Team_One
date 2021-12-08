@@ -795,7 +795,7 @@
         <!--Navigation Controller-->
         <scene sceneID="8Gq-an-1Qa">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fLb-6Y-sak" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="TestingView" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fLb-6Y-sak" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4kN-Qq-dzW">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
@@ -810,10 +810,10 @@
             </objects>
             <point key="canvasLocation" x="-5120.289855072464" y="538.39285714285711"/>
         </scene>
-        <!--Item 3-->
+        <!--User Settings Scene-->
         <scene sceneID="f7G-Ki-naz">
             <objects>
-                <viewController id="NkC-OI-3oh" userLabel="Item 3" customClass="SettingsViewController" customModule="FoodApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="NkC-OI-3oh" userLabel="User Settings Scene" customClass="SettingsViewController" customModule="FoodApp" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NHB-0i-IPO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -825,35 +825,52 @@
                                     <constraint firstAttribute="height" constant="150" id="ty1-Qh-teg"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userNameLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIm-vZ-tKY">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIm-vZ-tKY">
                                 <rect key="frame" x="0.0" y="380" width="414" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="userEmailLabel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgb-7O-CaP">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgb-7O-CaP">
                                 <rect key="frame" x="0.0" y="441" width="414" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gJv-b4-Mn9">
+                                <rect key="frame" x="20" y="641" width="374" height="48"/>
+                                <color key="backgroundColor" name="AccentColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="48" id="ZZf-bS-GT1"/>
+                                </constraints>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain"/>
+                                <connections>
+                                    <action selector="logoutAction:" destination="NkC-OI-3oh" eventType="touchUpInside" id="ySe-i8-FK0"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6KN-4a-XsX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="dgb-7O-CaP" firstAttribute="top" secondItem="SIm-vZ-tKY" secondAttribute="bottom" constant="40" id="1N3-ir-sNR"/>
+                            <constraint firstItem="gJv-b4-Mn9" firstAttribute="top" secondItem="dgb-7O-CaP" secondAttribute="bottom" constant="179" id="6T0-JW-2DX"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="SIm-vZ-tKY" secondAttribute="trailing" id="6fR-MQ-kjt"/>
                             <constraint firstItem="dgb-7O-CaP" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" id="7gR-SQ-0hC"/>
+                            <constraint firstItem="gJv-b4-Mn9" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" constant="20" id="82E-Hd-tAi"/>
                             <constraint firstItem="HTH-eQ-OPz" firstAttribute="centerX" secondItem="NHB-0i-IPO" secondAttribute="centerX" id="Arh-ZW-fZk"/>
                             <constraint firstItem="HTH-eQ-OPz" firstAttribute="top" secondItem="6KN-4a-XsX" secondAttribute="top" constant="50" id="USc-s2-y15"/>
                             <constraint firstItem="SIm-vZ-tKY" firstAttribute="top" secondItem="HTH-eQ-OPz" secondAttribute="bottom" constant="40" id="VCT-BR-Q5E"/>
+                            <constraint firstItem="gJv-b4-Mn9" firstAttribute="centerX" secondItem="dgb-7O-CaP" secondAttribute="centerX" id="WFg-Y3-pbX"/>
+                            <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="gJv-b4-Mn9" secondAttribute="trailing" constant="20" id="sap-Kg-QDa"/>
                             <constraint firstItem="SIm-vZ-tKY" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" id="y6E-Ez-Z4X"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="dgb-7O-CaP" secondAttribute="trailing" id="z1e-BK-TtF"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="9iY-jT-XJj"/>
                     <connections>
+                        <outlet property="actionButton" destination="gJv-b4-Mn9" id="vW4-RA-lhT"/>
                         <outlet property="userEmailLabel" destination="dgb-7O-CaP" id="Ov4-01-ct3"/>
                         <outlet property="userNameLabel" destination="SIm-vZ-tKY" id="MZC-zj-15d"/>
                     </connections>
@@ -864,7 +881,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="I5O-ff-hdj"/>
+        <segue reference="wqO-cX-PZM"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="avatar" width="512" height="512"/>
