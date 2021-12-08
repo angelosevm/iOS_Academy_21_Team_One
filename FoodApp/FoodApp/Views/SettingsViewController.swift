@@ -14,7 +14,7 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Settings"
+        title = "SETTINGS"
     }
     
     let userDefaults = UserDefaults.standard

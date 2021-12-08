@@ -137,13 +137,14 @@ class FoodTableViewCell: UITableViewCell {
         contentView.backgroundColor = .offWhiteLowered
         contentView.layer.cornerRadius = 20
         contentView.layer.shadowColor = CGColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
-        contentView.layer.shadowOpacity = 0.6
+        contentView.layer.shadowOpacity = 0.1
         contentView.layer.shadowOffset = CGSize(width: 2, height: 2)
         contentView.layer.shadowRadius = 9
         
         // icons
         let clockView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         clockView.image = UIImage(named: "ic_duration")
+        clockView.image?.withTintColor(.orange1Color)
         clockView.translatesAutoresizingMaskIntoConstraints = false
         let calorieView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
         calorieView.image = UIImage(named: "calorie")
@@ -175,6 +176,8 @@ class FoodTableViewCell: UITableViewCell {
               width: contentView.frame.size.width,
               height: contentView.frame.size.height - 150
         )
+        foodImageView.layer.borderWidth = 2.0
+        foodImageView.layer.borderColor = CGColor(red: 255/255, green: 140/255, blue: 43/255, alpha: 1)
         
         timeLabel.frame = CGRect(
               x: 25,

@@ -29,6 +29,19 @@ class SignUpViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        let colorShade1 = UIColor(red: 249/255, green: 202/255, blue: 100/255, alpha: 0.98).cgColor
+        let colorShade4 = UIColor(red: 249/255, green: 121/255, blue: 100/255, alpha: 0.98).cgColor
+        // create the gradient layer
+        let gradient = CAGradientLayer()
+        gradient.frame = self.view.bounds
+        gradient.startPoint = CGPoint(x:0.0, y:0.0)
+        gradient.endPoint = CGPoint(x:1.0, y:1.0)
+        gradient.colors = [colorShade1, colorShade4]
+        gradient.locations =  [-0.5, 1.5]
+        
+        // add the gradient to the view
+        self.view.layer.insertSublayer(gradient, at: 0)
+        
         signUpButton.layer.masksToBounds = true
         signUpButton.titleLabel?.font = UIFont.robotoBold(size: 20)
         signUpButton.applyGradient(isVertical: false, colorArray: [.orange1Color, .orange2Color])

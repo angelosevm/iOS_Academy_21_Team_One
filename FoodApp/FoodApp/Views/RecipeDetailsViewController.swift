@@ -22,24 +22,22 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     @IBOutlet weak var instructionsButton: UIButton!
     @IBOutlet weak var shareLink: UIButton!
     @IBOutlet weak var ingredientsTable: UITableView!
-    @IBOutlet weak var topView: UIView!
     
     var index: Int?
     var recipeDetails: [FoodTableViewCellViewModel] = []
     let gradientLayer = CAGradientLayer()
-    let gradientLayer2 = CAGradientLayer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // custom back button
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
         backbutton.tintColor = .white
         navigationItem.leftBarButtonItem = backbutton
+        
         // favorite button
         let favoriteButton = UIBarButtonItem(image: UIImage(named: "ic_favorites_grey"), style: .plain, target: self, action: #selector(makeFavorite))
         favoriteButton.tintColor = .white
-        
+
         navigationItem.rightBarButtonItem = favoriteButton
         
         self.navigationController?.isNavigationBarHidden = false
@@ -58,22 +56,14 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         ingredientsTitleLabel.text = "INGREDIENTS"
         ingredientsTable.reloadData()
         
-        // define gradients
+        // define gradient
         let color1 = UIColor(red: 222/255, green: 187/255, blue: 151/255, alpha: 0.2).cgColor
         let color2 = UIColor(red: 222/255, green: 203/255, blue: 151/255, alpha: 0.2).cgColor
         gradientLayer.colors = [color1, color2]
         gradientLayer.locations = [0, 1]
-        gradientLayer2.colors = [UIColor.clear.cgColor, UIColor.white.cgColor, UIColor.clear.cgColor]
-        gradientLayer2.locations = [0, 1]
-        // add gradients
+        
+        // add gradient
         self.view.layer.addSublayer(gradientLayer)
-        self.topView.layer.masksToBounds = true
-        self.topView.layer.shadowColor = CGColor(red: 51/255, green: 51/255, blue: 51/255, alpha: 1)
-        self.topView.layer.shadowOffset = CGSize(width: 2, height: 2)
-        self.topView.layer.shadowOpacity = 0.6
-        self.topView.layer.shadowRadius = 30
-        self.topView.layer.cornerCurve = .continuous
-        self.topView.layer.addSublayer(gradientLayer2)
         
         // icons
         let clockView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
@@ -108,7 +98,6 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         gradientLayer.frame = view.bounds
-        gradientLayer2.frame = topView.bounds
     }
     
     @objc func makeFavorite() {
