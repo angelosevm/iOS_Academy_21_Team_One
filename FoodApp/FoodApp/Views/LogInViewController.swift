@@ -23,6 +23,12 @@ class LogInViewController: UIViewController {
         emailTextField.autocapitalizationType = .none
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        emailTextField.keyboardType = .emailAddress
+        emailTextField.autocapitalizationType = .none
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

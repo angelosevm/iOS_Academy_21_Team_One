@@ -16,6 +16,22 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "SETTINGS"
+        
+        // Retrieve user data from user defaults
+        let nameStored = userDefaults.string(forKey: "userName")
+        let emailStored = userDefaults.string(forKey: "userEmail")
+        let isLoggedIn = userDefaults.bool(forKey: "isUserLoggedIn")
+        
+        if isLoggedIn {
+            self.userNameLabel.text = nameStored
+            self.userEmailLabel.text = emailStored
+            print("\(String(describing: userDefaults.string(forKey: "UUID")))")
+            actionButton.setTitle("Log out", for: .normal)
+        } else {
+            self.userNameLabel.text = ""
+            self.userEmailLabel.text = ""
+            actionButton.setTitle("Log in", for: .normal)
+        }
     }
     
     let userDefaults = UserDefaults.standard
