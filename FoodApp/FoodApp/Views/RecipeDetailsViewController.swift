@@ -158,8 +158,8 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         let text = recipeTitle
         let image = recipeImage
-        let myWebsite = URL(string: recipeDetails[0].recipeURL)
-        let shareAll = [text! , image! , myWebsite!] as [Any]
+        let myWebsite = "Share this recipe: \(recipeDetails[0].recipeURL)"
+        let shareAll = [text! , image! , myWebsite] as [Any]
         let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)

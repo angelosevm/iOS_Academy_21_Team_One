@@ -339,9 +339,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
-                            <color key="textColor" systemColor="systemIndigoColor"/>
-                            <color key="textShadowColor" systemColor="systemTealColor"/>
-                            <offsetWrapper key="textShadowOffset" horizontal="-1" vertical="-1"/>
+                            <color key="textColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textShadowColor" systemColor="systemYellowColor"/>
+                            <offsetWrapper key="textShadowOffset" horizontal="-2" vertical="-2"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -364,9 +364,9 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <textAttributes key="titleTextAttributes">
                             <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
-                            <color key="textColor" systemColor="systemRedColor"/>
-                            <color key="textShadowColor" red="0.90339242610000003" green="0.6671559467" blue="0.75643590579999997" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <offsetWrapper key="textShadowOffset" horizontal="-1" vertical="-1"/>
+                            <color key="textColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textShadowColor" systemColor="systemYellowColor"/>
+                            <offsetWrapper key="textShadowOffset" horizontal="-2" vertical="-2"/>
                         </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -384,9 +384,15 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="klO-qU-eP1" userLabel="SettingsNav" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="ic_profile_grey" selectedImage="ic_profile_orange" id="gBv-iG-4eN" userLabel="Settings"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" largeTitles="YES" id="sAW-ua-jVq">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="sAW-ua-jVq">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <textAttributes key="titleTextAttributes">
+                            <fontDescription key="fontDescription" name="Montserrat-Bold" family="Montserrat" pointSize="24"/>
+                            <color key="textColor" red="1" green="0.57637232540000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="textShadowColor" systemColor="systemYellowColor"/>
+                            <offsetWrapper key="textShadowOffset" horizontal="-2" vertical="-2"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -805,18 +811,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="HTH-eQ-OPz">
-                                <rect key="frame" x="132" y="190" width="150" height="150"/>
+                                <rect key="frame" x="132" y="138" width="150" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="ljJ-Te-fWo"/>
                                     <constraint firstAttribute="height" constant="150" id="ty1-Qh-teg"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIm-vZ-tKY">
-                                <rect key="frame" x="0.0" y="380" width="414" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dgb-7O-CaP">
                                 <rect key="frame" x="0.0" y="441" width="414" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -835,22 +835,29 @@
                                     <action selector="logoutAction:" destination="NkC-OI-3oh" eventType="touchUpInside" id="ySe-i8-FK0"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SIm-vZ-tKY">
+                                <rect key="frame" x="164" y="379" width="86" height="20"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6KN-4a-XsX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="dgb-7O-CaP" firstAttribute="top" secondItem="SIm-vZ-tKY" secondAttribute="bottom" constant="40" id="1N3-ir-sNR"/>
                             <constraint firstItem="gJv-b4-Mn9" firstAttribute="top" secondItem="dgb-7O-CaP" secondAttribute="bottom" constant="179" id="6T0-JW-2DX"/>
-                            <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="SIm-vZ-tKY" secondAttribute="trailing" id="6fR-MQ-kjt"/>
                             <constraint firstItem="dgb-7O-CaP" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" id="7gR-SQ-0hC"/>
                             <constraint firstItem="gJv-b4-Mn9" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" constant="20" id="82E-Hd-tAi"/>
-                            <constraint firstItem="HTH-eQ-OPz" firstAttribute="centerX" secondItem="NHB-0i-IPO" secondAttribute="centerX" id="Arh-ZW-fZk"/>
+                            <constraint firstItem="HTH-eQ-OPz" firstAttribute="centerX" secondItem="6KN-4a-XsX" secondAttribute="centerX" id="9zH-bM-3lL"/>
+                            <constraint firstItem="dgb-7O-CaP" firstAttribute="top" secondItem="SIm-vZ-tKY" secondAttribute="bottom" constant="42" id="Fny-es-nld"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="bottom" secondItem="gJv-b4-Mn9" secondAttribute="bottom" constant="124" id="GUh-Si-B9l"/>
                             <constraint firstItem="HTH-eQ-OPz" firstAttribute="top" secondItem="6KN-4a-XsX" secondAttribute="top" constant="50" id="USc-s2-y15"/>
-                            <constraint firstItem="SIm-vZ-tKY" firstAttribute="top" secondItem="HTH-eQ-OPz" secondAttribute="bottom" constant="40" id="VCT-BR-Q5E"/>
+                            <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="SIm-vZ-tKY" secondAttribute="trailing" constant="164" id="V6z-ae-C7i"/>
+                            <constraint firstItem="SIm-vZ-tKY" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" constant="164" id="hB9-tO-DVk"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="gJv-b4-Mn9" secondAttribute="trailing" constant="20" id="sap-Kg-QDa"/>
-                            <constraint firstItem="SIm-vZ-tKY" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" id="y6E-Ez-Z4X"/>
+                            <constraint firstItem="SIm-vZ-tKY" firstAttribute="centerX" secondItem="6KN-4a-XsX" secondAttribute="centerX" id="tbC-90-iHB"/>
+                            <constraint firstItem="SIm-vZ-tKY" firstAttribute="top" secondItem="HTH-eQ-OPz" secondAttribute="bottom" constant="91" id="yO0-C5-lgf"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="dgb-7O-CaP" secondAttribute="trailing" id="z1e-BK-TtF"/>
                         </constraints>
                     </view>
@@ -888,17 +895,8 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
-        <systemColor name="systemIndigoColor">
-            <color red="0.34509803921568627" green="0.33725490196078434" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemTealColor">
-            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemYellowColor">
             <color red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

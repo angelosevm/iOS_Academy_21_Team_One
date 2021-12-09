@@ -94,6 +94,10 @@ class StartingViewController: UIViewController {
     }
     
     @IBAction func guestButton(_ sender: Any) {
+        
+        UserDefaults.standard.set(false, forKey: "isUserLoggedIn")
+        UserDefaults.standard.synchronize()
+        
         let viewController = storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
         view.window?.rootViewController = viewController
         view.window?.makeKeyAndVisible()
