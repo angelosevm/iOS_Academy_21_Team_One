@@ -23,7 +23,6 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     @IBOutlet weak var shareLink: UIButton!
     @IBOutlet weak var ingredientsTable: UITableView!
     
-    var index: Int?
     var recipeDetails: [FoodTableViewCellViewModel] = []
     let gradientLayer = CAGradientLayer()
     
@@ -35,12 +34,23 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         navigationItem.leftBarButtonItem = backbutton
         
         // favorite button
-        let favoriteButton = UIBarButtonItem(image: UIImage(named: "ic_favorites_grey"), style: .plain, target: self, action: #selector(makeFavorite))
+        let favoriteButton = UIBarButtonItem(image: UIImage(named: "like"), style: .plain, target: self, action: #selector(makeFavorite))
         favoriteButton.tintColor = .white
 
         navigationItem.rightBarButtonItem = favoriteButton
         
         self.navigationController?.isNavigationBarHidden = false
+        
+        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        
+        // if user is logged in the makeFavorite button exists
+        if logInState {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        }
+        // if user in NOT logged in the makeFavorite button disappears
+        else {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        }
         
         // fill labels and image
         ingredientsTable.dataSource = self
@@ -67,32 +77,42 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         // icons
         let clockView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        clockView.image = UIImage(named: "ic_duration")
+        clockView.image = UIImage(named: "time_icon")
+        clockView.contentMode = .scaleAspectFill
         clockView.translatesAutoresizingMaskIntoConstraints = false
         let calorieView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        calorieView.image = UIImage(named: "calorie")
+        calorieView.image = UIImage(named: "calories_icon")
         calorieView.translatesAutoresizingMaskIntoConstraints = false
+        calorieView.contentMode = .scaleAspectFill
         calorieView.tintColor = .customGray
         let servingsView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        servingsView.image = UIImage(named: "ic_recipes_grey")
+        servingsView.image = UIImage(named: "servings_icon")
+        servingsView.contentMode = .scaleAspectFill
         servingsView.translatesAutoresizingMaskIntoConstraints = false
         
         caloriesLabel.addSubview(calorieView)
         calorieView.centerYAnchor.constraint(equalTo: caloriesLabel.centerYAnchor, constant: 0).isActive = true
-        calorieView.rightAnchor.constraint(equalTo: caloriesLabel.leftAnchor, constant: 46).isActive = true
+        calorieView.rightAnchor.constraint(equalTo: caloriesLabel.leftAnchor, constant: 34).isActive = true
         timeLabel.addSubview(clockView)
         clockView.centerYAnchor.constraint(equalTo: timeLabel.centerYAnchor, constant: 0).isActive = true
-        clockView.rightAnchor.constraint(equalTo: timeLabel.leftAnchor, constant: 12).isActive = true
+        clockView.rightAnchor.constraint(equalTo: timeLabel.leftAnchor, constant: -5).isActive = true
         servingsLabel.addSubview(servingsView)
         servingsView.centerYAnchor.constraint(equalTo: servingsLabel.centerYAnchor, constant: 0).isActive = true
-        servingsView.rightAnchor.constraint(equalTo: servingsLabel.leftAnchor, constant: 20).isActive = true
+        servingsView.rightAnchor.constraint(equalTo: servingsLabel.leftAnchor, constant: 10).isActive = true
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // make favorite persist
-        self.navigationItem.rightBarButtonItem?.tintColor = recipeDetails[0].isFavorite ? UIColor.red : .white
+        // make favorite persist:
+        // every time we enter the details page, we must check if the item exists in favorites array
+        // and change the heart color accordingly
+        if Favorites.sharedFavorites.containsElement(element: recipeDetails[0]) {
+            self.navigationItem.rightBarButtonItem?.tintColor = .red
+        }
+        else {
+            self.navigationItem.rightBarButtonItem?.tintColor = .white
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -100,14 +120,33 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         gradientLayer.frame = view.bounds
     }
     
+    // triggers when we tap on the heart icon
     @objc func makeFavorite() {
+        // changes heart icon and isFavorite bool in recipe
         changeFavoriteState()
-        if recipeDetails[0].isFavorite && !Favorites.sharedFavorites.containsElement(element: recipeDetails[0]){
+        // if recipe is added to favorites, add the recipe to the favorites array and then to User defaults
+        if recipeDetails[0].isFavorite && !Favorites.sharedFavorites.containsElement(element: recipeDetails[0]) {
             Favorites.sharedFavorites.favoritesArray.append(recipeDetails[0])
-            print(Favorites.sharedFavorites.favoritesArray)
-        } else {
+            do {
+                let data = try JSONEncoder().encode(Favorites.sharedFavorites.favoritesArray)
+                UserDefaults.standard.set(data, forKey: "savedRecipes")
+                UserDefaults.standard.synchronize()
+            }
+            catch {
+                print("Unable to encode (\(error))")
+            }
+        }
+        // if recipe is unfavorited, remove the recipe from the favorites array, and set the new array in User defaults
+        else {
             Favorites.sharedFavorites.favoritesArray.remove(at: Favorites.sharedFavorites.indexElement(element: recipeDetails[0]))
-            print(Favorites.sharedFavorites.favoritesArray)
+            do {
+                let data = try JSONEncoder().encode(Favorites.sharedFavorites.favoritesArray)
+                UserDefaults.standard.set(data, forKey: "savedRecipes")
+                UserDefaults.standard.synchronize()
+            }
+            catch {
+                print("Unable to encode (\(error))")
+            }
         }
     }
     
@@ -146,16 +185,6 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     // when hitting the "Share this recipe" button, show toolbar for sharing
     @IBAction func shareRecipe(_ sender: UIButton) {
-        
-//        let bounds = UIScreen.main.bounds
-//        UIGraphicsBeginImageContextWithOptions(bounds.size, true, 0.0)
-//        self.view.drawHierarchy(in: bounds, afterScreenUpdates: false)
-//        let img = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//        let activityViewController = UIActivityViewController(activityItems: [img!], applicationActivities: nil)
-//        activityViewController.popoverPresentationController?.sourceView = self.view
-//        self.present(activityViewController, animated: true, completion: nil)
-        
         let text = recipeTitle
         let image = recipeImage
         let myWebsite = "Share this recipe: \(recipeDetails[0].recipeURL)"

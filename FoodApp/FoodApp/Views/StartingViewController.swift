@@ -15,7 +15,8 @@ class StartingViewController: UIViewController {
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var continueAsGuestButton: UIButton!
-
+    @IBOutlet weak var logoImage: UIImageView!
+    
     private var gradient: CAGradientLayer?
     
     override func viewDidLoad() {
@@ -24,6 +25,12 @@ class StartingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        UIView.animate(withDuration: 1) {
+            self.logoImage.image = UIImage(named: "logoMain")
+            self.logoImage.layer.opacity = 0
+            self.logoImage.layer.opacity = 1
+        }
         
         // define colors
         //let colorPink = UIColor(red: 243/255, green: 129/255, blue: 129/255, alpha: 0.95).cgColor

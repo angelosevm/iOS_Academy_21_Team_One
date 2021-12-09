@@ -51,6 +51,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         scrollToTopButton.addTarget(self, action: #selector(scrollToTopButtonPressed), for: .touchUpInside)
         view.addSubview(scrollToTopButton)
         
+        
         // hide navigation contoller when scrolling
         self.navigationController?.hidesBarsOnSwipe = true
         
@@ -60,6 +61,21 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.dataSource = self
         tableView.prefetchDataSource = self
         tableView.separatorStyle = .none
+        
+        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        
+        // if user is logged in, update the Favorites array from User defaults when loading tab
+        if logInState {
+            // Favorites array
+            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+                do {
+                    Favorites.sharedFavorites.favoritesArray = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                }
+                catch {
+                    print("Unable to decode saved recipes (\(error))")
+                }
+            }
+        }
 
         createSearchBar()
         query = "Main"
@@ -109,7 +125,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self?.urlConst = response._links.next?.href ?? ""
                     self?.viewModels += response.hits.compactMap({
                         FoodTableViewCellViewModel(
-                            id: UUID(),
+                            uri: $0.recipe.uri,
                             title: $0.recipe.label,
                             subtitle: $0.recipe.dishType?[0] ?? "no dish type",
                             imageURL: URL(string: $0.recipe.image),
@@ -189,7 +205,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let nextVC = segue.destination as! RecipeDetails
             // transfer recipe details to nextVC
             guard let index = index else { return }
-            nextVC.index = index
             nextVC.recipeDetails.append(viewModels[index])
         }
     }

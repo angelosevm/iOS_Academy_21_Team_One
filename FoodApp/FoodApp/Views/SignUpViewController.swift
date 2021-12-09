@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class SignUpViewController: UIViewController {
     
@@ -13,13 +14,29 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var greetingLabel: UILabel!
+    @IBOutlet weak var registrationLabel: UILabel!
     
+    private let indicatorView: NVActivityIndicatorView = NVActivityIndicatorView(
+        frame: CGRect(x: 185, y: 350, width: 50, height: 50),
+        type: NVActivityIndicatorType.ballBeat,
+        color: .black,
+        padding: 0.5
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
         backbutton.tintColor = .black
         navigationItem.leftBarButtonItem = backbutton
+        
+        registrationLabel.text =
+        """
+        Your registration was successful.
+        Thank you!
+        """
+        registrationLabel.isHidden = true
+        registrationLabel.textColor = UIColor(red: 37/255, green: 184/255, blue: 0/255, alpha: 0.72)
         
         nameTextField.autocapitalizationType = .none
         emailTextField.keyboardType = .emailAddress
@@ -33,6 +50,12 @@ class SignUpViewController: UIViewController {
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
         emailTextField.autocorrectionType = .no
+        
+        UIView.animate(withDuration: 1) {
+            self.greetingLabel.text = "Nice to meet you"
+            self.greetingLabel.layer.opacity = 0
+            self.greetingLabel.layer.opacity = 1
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -51,12 +74,18 @@ class SignUpViewController: UIViewController {
         // add the gradient to the view
         self.view.layer.insertSublayer(gradient, at: 0)
         
+        self.view.addSubview(indicatorView)
+        
         signUpButton.layer.masksToBounds = true
         signUpButton.titleLabel?.font = UIFont.robotoBold(size: 20)
         signUpButton.applyGradient(isVertical: false, colorArray: [.orange1Color, .orange2Color])
         signUpButton.tintColor = .white
         signUpButton.layer.cornerRadius = 25
         signUpButton.layer.cornerCurve = .continuous
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     @IBAction func signUp(_ sender: Any) {
@@ -74,37 +103,47 @@ class SignUpViewController: UIViewController {
         }
         
         // Store users in user defaults
-        UserDefaults.standard.set(userName, forKey: "userName")
         // Check if email already exists
         let emailStored = UserDefaults.standard.string(forKey: "userEmail")
         if userEmail == emailStored {
-            displayAlert(message: "Email already exists. Please choose another one.")
+            displayAlert(message: "Email already exists. Please choose a different one.")
             return
         } else {
+            UserDefaults.standard.set(userName, forKey: "userName")
             UserDefaults.standard.set(userEmail, forKey: "userEmail")
         }
         UserDefaults.standard.set(userPassword, forKey: "userPassword")
         UserDefaults.standard.set(uuid, forKey: "UUID")
         UserDefaults.standard.synchronize()
         
-        // Notify user that registration was successfull
-        let successAlert = UIAlertController(title: "Alert", message: "Your registration was successful. Thank you", preferredStyle: .alert)
-        
-        // Action when user presses ok
-        let okAction = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default) { action in
-            self.dismiss(animated: true, completion: nil)
+        // animation at successful registration
+        UIView.animate(withDuration: 2.5, animations: animation) { _ in
+            self.indicatorView.stopAnimating()
+            self.registrationLabel.isHidden = true
+            let viewController = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+            self.view.window?.rootViewController = viewController
+            self.view.window?.makeKeyAndVisible()
         }
         
-        // Successful registration
-        successAlert.addAction(okAction)
-        self.present(successAlert, animated: true, completion: nil)
         
-        // Display alert message function
-        func displayAlert(message: String) {
-            let alertMessage = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-            let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            alertMessage.addAction(okAction)
-            self.present(alertMessage, animated: true, completion: nil)
-        }
     }
+    
+    // Display alert message function if email exists
+    func displayAlert(message: String) {
+        let alertMessage = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertMessage.addAction(okAction)
+        self.present(alertMessage, animated: true, completion: nil)
+    }
+    
+    func animation() {
+        self.indicatorView.startAnimating()
+        self.registrationLabel.isHidden = false
+        self.registrationLabel.layer.opacity = 0.7
+        self.registrationLabel.transform = CGAffineTransform(translationX: 0,
+                                                             y: self.registrationLabel.bounds.origin.y - 15)
+        self.registrationLabel.layer.opacity = 1
+    }
+    
 }
+

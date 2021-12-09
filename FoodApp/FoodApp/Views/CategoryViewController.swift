@@ -65,6 +65,21 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         backbutton.tintColor = .black
         navigationItem.leftBarButtonItem = backbutton
         
+        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        
+        // if user is logged in, update the Favorites array from User defaults when loading tab
+        if logInState {
+            // Favorites array
+            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+                do {
+                    Favorites.sharedFavorites.favoritesArray = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                }
+                catch {
+                    print("Unable to decode saved recipes (\(error))")
+                }
+            }
+        }
+        
         createSearchBar()
         query = "Main"
         // Default search when launching app
@@ -113,7 +128,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
                     self?.urlConst = response._links.next?.href ?? ""
                     self?.viewModels += response.hits.compactMap({
                         FoodTableViewCellViewModel(
-                            id: UUID(),
+                            uri: $0.recipe.uri,
                             title: $0.recipe.label,
                             subtitle: $0.recipe.dishType?[0] ?? "no dish type",
                             imageURL: URL(string: $0.recipe.image),
@@ -194,7 +209,6 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
             let nextVC = segue.destination as! RecipeDetails
             // transfer recipe details to nextVC
             guard let index = index else { return }
-            nextVC.index = index
             nextVC.recipeDetails.append(viewModels[index])
         }
     }

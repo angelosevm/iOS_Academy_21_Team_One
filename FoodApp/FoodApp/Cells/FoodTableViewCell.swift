@@ -10,9 +10,9 @@ import UIKit
 // MARK: View Model
 
 // Hold imageView data and url to be cached when downloaded so that it doesn't redownload when scrolling offscreen
-class FoodTableViewCellViewModel {
+class FoodTableViewCellViewModel: Codable {
     
-    let id: UUID
+    let uri: String
     let title: String
     let subtitle: String
     let imageURL: URL?
@@ -26,7 +26,7 @@ class FoodTableViewCellViewModel {
     var isFavorite: Bool
     
     init(
-        id: UUID,
+        uri: String,
         title: String,
         subtitle: String,
         imageURL: URL?,
@@ -38,7 +38,7 @@ class FoodTableViewCellViewModel {
         shareAs: String,
         isFavorite: Bool
     ) {
-        self.id = UUID()
+        self.uri = uri
         self.title = title
         self.subtitle = subtitle
         self.imageURL = imageURL
@@ -115,6 +115,17 @@ class FoodTableViewCell: UITableViewCell {
         return imageView
     }()
     
+    // heart icon
+    private let heartImageView: UIImageView = {
+        let imageView = UIImageView()
+        //imageView.image = UIImage(named: "ic_favorites_grey")
+        imageView.tintColor = .white
+        imageView.layer.masksToBounds = true
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
     // Create subviews on initialization
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -141,17 +152,22 @@ class FoodTableViewCell: UITableViewCell {
         contentView.layer.shadowOffset = CGSize(width: 2, height: 2)
         contentView.layer.shadowRadius = 9
         
+        heartImageView.translatesAutoresizingMaskIntoConstraints = false
+        
         // icons
         let clockView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        clockView.image = UIImage(named: "ic_duration")
+        clockView.image = UIImage(named: "time_icon")
+        clockView.contentMode = .scaleAspectFill
         clockView.image?.withTintColor(.orange1Color)
         clockView.translatesAutoresizingMaskIntoConstraints = false
         let calorieView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        calorieView.image = UIImage(named: "calorie")
+        calorieView.image = UIImage(named: "calories_icon")
+        calorieView.contentMode = .scaleAspectFill
         calorieView.translatesAutoresizingMaskIntoConstraints = false
         calorieView.tintColor = .customGray
         let servingsView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
-        servingsView.image = UIImage(named: "ic_recipes_grey")
+        servingsView.image = UIImage(named: "servings_icon")
+        servingsView.contentMode = .scaleAspectFill
         servingsView.translatesAutoresizingMaskIntoConstraints = false
         
         // label frames and settings
@@ -189,7 +205,7 @@ class FoodTableViewCell: UITableViewCell {
         timeLabel.textAlignment = .center
         timeLabel.addSubview(clockView)
         clockView.centerYAnchor.constraint(equalTo: timeLabel.centerYAnchor, constant: 0).isActive = true
-        clockView.rightAnchor.constraint(equalTo: timeLabel.leftAnchor, constant: 20).isActive = true
+        clockView.rightAnchor.constraint(equalTo: timeLabel.leftAnchor, constant: 18).isActive = true
         
         caloriesLabel.frame = CGRect(
               x: 185,
@@ -201,7 +217,7 @@ class FoodTableViewCell: UITableViewCell {
         caloriesLabel.textAlignment = .center
         caloriesLabel.addSubview(calorieView)
         calorieView.centerYAnchor.constraint(equalTo: caloriesLabel.centerYAnchor, constant: 0).isActive = true
-        calorieView.rightAnchor.constraint(equalTo: caloriesLabel.leftAnchor, constant: 16).isActive = true
+        calorieView.rightAnchor.constraint(equalTo: caloriesLabel.leftAnchor, constant: 13).isActive = true
         
         servingsLabel.frame = CGRect(
               x: 260,
@@ -213,8 +229,17 @@ class FoodTableViewCell: UITableViewCell {
         servingsLabel.textAlignment = .center
         servingsLabel.addSubview(servingsView)
         servingsView.centerYAnchor.constraint(equalTo: servingsLabel.centerYAnchor, constant: 0).isActive = true
-        servingsView.rightAnchor.constraint(equalTo: servingsLabel.leftAnchor, constant: 17).isActive = true
+        servingsView.rightAnchor.constraint(equalTo: servingsLabel.leftAnchor, constant: 14).isActive = true
         
+        heartImageView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: 50,
+            height: 50
+      )
+        subtitleLabel.addSubview(heartImageView)
+        heartImageView.centerYAnchor.constraint(equalTo: subtitleLabel.centerYAnchor, constant: 0).isActive = true
+        heartImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
     }
     
     // Nil everything for next cell
@@ -226,6 +251,7 @@ class FoodTableViewCell: UITableViewCell {
         timeLabel.text = nil
         caloriesLabel.text = nil
         servingsLabel.text = nil
+        heartImageView.image = nil
     }
     
     // MARK: Cell data configuration
@@ -234,10 +260,9 @@ class FoodTableViewCell: UITableViewCell {
         // Fill labels
         foodTitleLabel.text = viewModel?.title
         subtitleLabel.text = viewModel?.subtitle.uppercased()
-        //let attachment = NSTextAttachment()
-        //attachment.image = UIImage(systemName: "time")
         timeLabel.text = String(Int(viewModel?.time ?? 0)) + " minutes"
-        //timeLabel.text.append(attachment)
+
+        // divide calories with servings to create calories/servings
         let numberOfServings = viewModel?.servings ?? 0
         if numberOfServings == 0 {
             caloriesLabel.text = String(Int(viewModel?.calories ?? 0))
@@ -247,11 +272,21 @@ class FoodTableViewCell: UITableViewCell {
         }
         servingsLabel.text = String(viewModel?.servings ?? 0) + " people"
         
+        // make favorite show on home screen:
+        // every time we enter the home/category page, we must check if the item exists in favorites array
+        // and change the heart color accordingly
+        guard let viewModel = viewModel else {
+            return
+        }
+        if Favorites.sharedFavorites.containsElement(element: viewModel) {
+            self.heartImageView.image = UIImage(named: "like")
+        }
+        
         // Configure image
-        if let data = viewModel?.imageData {
+        if let data = viewModel.imageData {
             foodImageView.image = UIImage(data: data)
         }
-        else if let url = viewModel?.imageURL {
+        else if let url = viewModel.imageURL {
             // Fetch image
             URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
                 guard let data = data, error == nil else {
@@ -259,7 +294,7 @@ class FoodTableViewCell: UITableViewCell {
                     self?.foodImageView.contentMode = .scaleAspectFill
                     return
                 }
-                viewModel?.imageData = data
+                viewModel.imageData = data
                 DispatchQueue.main.async {
                     self?.foodImageView.image = UIImage(data: data)
                     self?.foodImageView.contentMode = .scaleAspectFill

@@ -12,17 +12,48 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
     var viewModels = [FoodTableViewCellViewModel]()
     private var index : Int?
     private let emptyLabel = UILabel()
+    @IBOutlet weak var logInLabel: UILabel!
+    @IBOutlet weak var logInButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "FAVORITES"
         view.addSubview(tableView)
+        view.addSubview(logInButton)
+        logInLabel.text = "You must be logged in to save recipes"
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.separatorStyle = .none
         
+        logInButton.setTitle("Log In", for: .normal)
+        logInButton.tintColor = .white
+        logInButton.layer.cornerRadius = 25
+        logInButton.layer.cornerCurve = .continuous
+        
+        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        
+        // if user is logged in, allow for saving favorites by updating the arrays from User defaults
+        if logInState {
+            logInLabel.isHidden = true
+            logInButton.isHidden = true
+            // update viewModels and Favorites array
+            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+                do {
+                    viewModels = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                    Favorites.sharedFavorites.favoritesArray = viewModels
+                }
+                catch {
+                    print("Unable to decode saved recipes (\(error))")
+                }
+            }
+        }
+        // if user is NOT logged in, disable favorites functionality and display a message with a button
+        else {
+            logInLabel.isHidden = false
+            logInButton.isHidden = false
+        }
+        
         emptyLabel.isHidden = false
-
         emptyLabel.text = "No saved recipes"
         emptyLabel.textAlignment = .center
         emptyLabel.font = .montserratRegular(size: 20)
@@ -31,7 +62,30 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModels = Favorites.sharedFavorites.favoritesArray
+        
+        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        
+        // if user is logged in, allow for saving favorites by updating the arrays from User defaults
+        if logInState {
+            logInLabel.isHidden = true
+            logInButton.isHidden = true
+            // update viewModels and Favorites array
+            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+                do {
+                    viewModels = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                }
+                catch {
+                    print("Unable to decode saved recipes (\(error))")
+                }
+            }
+        }
+
+        // if user is NOT logged in, disable favorites functionality and display a message with a button
+        else {
+            logInLabel.isHidden = false
+            logInButton.isHidden = false
+        }
+        
         print(viewModels.count)
         self.tableView.reloadData()
     }
@@ -50,7 +104,13 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.frame = view.bounds
         emptyLabel.frame = view.bounds
         view.addSubview(emptyLabel)
+        view.addSubview(logInLabel)
+        logInButton.layer.masksToBounds = true
+        logInButton.titleLabel?.font = UIFont.robotoBold(size: 20)
+        logInButton.applyGradient(isVertical: false, colorArray: [.orange1Color, .orange2Color])
+    
     }
+    
     
     // segue to next controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -96,6 +156,12 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         index = indexPath.row
         // go to custom details page
         performSegue(withIdentifier: "FavoritesRecipeDetails", sender: nil)
+    }
+    
+    @IBAction func logIn(_ sender: Any) {
+        let viewController = storyboard?.instantiateViewController(withIdentifier: "TestingView")
+        view.window?.rootViewController = viewController
+        view.window?.makeKeyAndVisible()
     }
     
 }

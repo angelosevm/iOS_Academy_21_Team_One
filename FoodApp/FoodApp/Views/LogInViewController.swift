@@ -12,7 +12,7 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    
+    @IBOutlet weak var greetingLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +29,12 @@ class LogInViewController: UIViewController {
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
         emailTextField.autocorrectionType = .no
+        
+        UIView.animate(withDuration: 1) {
+            self.greetingLabel.text = "Good to see you again"
+            self.greetingLabel.layer.opacity = 0
+            self.greetingLabel.layer.opacity = 1
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -53,6 +59,10 @@ class LogInViewController: UIViewController {
         logInButton.tintColor = .white
         logInButton.layer.cornerRadius = 25
         logInButton.layer.cornerCurve = .continuous
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     @IBAction func logIn(_ sender: Any) {
@@ -82,7 +92,7 @@ class LogInViewController: UIViewController {
         func displayAlert(message: String) {
             let alertMessage = UIAlertController(title: "Alert", message: message, preferredStyle: UIAlertController.Style.alert)
             
-            let okAction = UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil)
+            let okAction = UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil)
             
             alertMessage.addAction(okAction)
             self.present(alertMessage, animated: true, completion: nil)
