@@ -21,12 +21,14 @@ class LogInViewController: UIViewController {
         navigationItem.leftBarButtonItem = backbutton
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
+        emailTextField.autocorrectionType = .no
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
+        emailTextField.autocorrectionType = .no
     }
     
     override func viewDidLayoutSubviews() {

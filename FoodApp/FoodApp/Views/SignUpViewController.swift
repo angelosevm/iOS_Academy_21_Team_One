@@ -24,6 +24,7 @@ class SignUpViewController: UIViewController {
         nameTextField.autocapitalizationType = .none
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
+        emailTextField.autocorrectionType = .no
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -31,6 +32,7 @@ class SignUpViewController: UIViewController {
         nameTextField.autocapitalizationType = .none
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
+        emailTextField.autocorrectionType = .no
     }
     
     override func viewDidLayoutSubviews() {
