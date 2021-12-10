@@ -37,8 +37,8 @@ class SettingsViewController: UIViewController {
             self.userEmailLabel.text = emailStored
             actionButton.setTitle("Log out", for: .normal)
         } else {
-            self.userNameLabel.text = ""
-            self.userEmailLabel.text = ""
+            self.userNameLabel.text = "-"
+            self.userEmailLabel.text = "-"
             actionButton.setTitle("Log in", for: .normal)
         }
     }
@@ -59,8 +59,8 @@ class SettingsViewController: UIViewController {
             self.userEmailLabel.text = emailStored
             actionButton.setTitle("Log out", for: .normal)
         } else {
-            self.userNameLabel.text = ""
-            self.userEmailLabel.text = ""
+            self.userNameLabel.text = "-"
+            self.userEmailLabel.text = "-"
             actionButton.setTitle("Log in", for: .normal)
         }
     }

@@ -25,6 +25,7 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     var recipeDetails: [FoodTableViewCellViewModel] = []
     let gradientLayer = CAGradientLayer()
+    var savedFavorites: [FoodTableViewCellViewModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,7 +108,7 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         // make favorite persist:
         // every time we enter the details page, we must check if the item exists in favorites array
         // and change the heart color accordingly
-        if Favorites.sharedFavorites.containsElement(element: recipeDetails[0]) {
+        if containsElement(element: recipeDetails[0], array: savedFavorites) {
             self.navigationItem.rightBarButtonItem?.tintColor = .red
         }
         else {
@@ -124,31 +125,89 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     @objc func makeFavorite() {
         // changes heart icon and isFavorite bool in recipe
         changeFavoriteState()
-        // if recipe is added to favorites, add the recipe to the favorites array and then to User defaults
-        if recipeDetails[0].isFavorite && !Favorites.sharedFavorites.containsElement(element: recipeDetails[0]) {
-            Favorites.sharedFavorites.favoritesArray.append(recipeDetails[0])
-            do {
-                let data = try JSONEncoder().encode(Favorites.sharedFavorites.favoritesArray)
-                UserDefaults.standard.set(data, forKey: "savedRecipes")
-                UserDefaults.standard.synchronize()
+        // if the recipe is favorite, get the favorites array from User defaults, add the item to the array
+        // and save the new array back to User defaults
+        if recipeDetails[0].isFavorite {
+            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+                do {
+                    savedFavorites = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                }
+                catch {
+                    print("Unable to decode saved recipes (\(error))")
+                }
             }
-            catch {
-                print("Unable to encode (\(error))")
+            if !containsElement(element: recipeDetails[0], array: savedFavorites) {
+                savedFavorites.append(recipeDetails[0])
+                do {
+                    let data = try JSONEncoder().encode(savedFavorites)
+                    UserDefaults.standard.set(data, forKey: "savedRecipes")
+                    UserDefaults.standard.synchronize()
+                }
+                catch {
+                    print("Unable to encode (\(error))")
+                }
             }
         }
-        // if recipe is unfavorited, remove the recipe from the favorites array, and set the new array in User defaults
+        // if the recipe is not a favorite, get the favorites array from User defaults, remove the item from the array
+        // and save the new array back to User defaults
         else {
-            Favorites.sharedFavorites.favoritesArray.remove(at: Favorites.sharedFavorites.indexElement(element: recipeDetails[0]))
-            do {
-                let data = try JSONEncoder().encode(Favorites.sharedFavorites.favoritesArray)
-                UserDefaults.standard.set(data, forKey: "savedRecipes")
-                UserDefaults.standard.synchronize()
+            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+                do {
+                    savedFavorites = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                }
+                catch {
+                    print("Unable to decode saved recipes (\(error))")
+                }
             }
-            catch {
-                print("Unable to encode (\(error))")
+           
+                savedFavorites.remove(at: indexElement(element: recipeDetails[0], array: savedFavorites))
+                do {
+                    let data = try JSONEncoder().encode(savedFavorites)
+                    UserDefaults.standard.set(data, forKey: "savedRecipes")
+                    UserDefaults.standard.synchronize()
+                }
+                catch {
+                    print("Unable to encode (\(error))")
+                }
             }
-        }
     }
+    
+    func indexElement(element: FoodTableViewCellViewModel, array: [FoodTableViewCellViewModel]) -> Int {
+        return array.firstIndex(where: { $0.uri == element.uri } ) ?? 0
+    }
+    
+    func containsElement(element: FoodTableViewCellViewModel, array: [FoodTableViewCellViewModel]) -> Bool {
+        return array.contains(where: { $0.uri == element.uri } )
+    }
+//    // triggers when we tap on the heart icon
+//    @objc func makeFavorite() {
+//        // changes heart icon and isFavorite bool in recipe
+//        changeFavoriteState()
+//        // if recipe is added to favorites, add the recipe to the favorites array and then to User defaults
+//        if recipeDetails[0].isFavorite && !Favorites.sharedFavorites.containsElement(element: recipeDetails[0]) {
+//            Favorites.sharedFavorites.favoritesArray.append(recipeDetails[0])
+//            do {
+//                let data = try JSONEncoder().encode(Favorites.sharedFavorites.favoritesArray)
+//                UserDefaults.standard.set(data, forKey: "savedRecipes")
+//                UserDefaults.standard.synchronize()
+//            }
+//            catch {
+//                print("Unable to encode (\(error))")
+//            }
+//        }
+//        // if recipe is unfavorited, remove the recipe from the favorites array, and set the new array in User defaults
+//        else {
+//            Favorites.sharedFavorites.favoritesArray.remove(at: Favorites.sharedFavorites.indexElement(element: recipeDetails[0]))
+//            do {
+//                let data = try JSONEncoder().encode(Favorites.sharedFavorites.favoritesArray)
+//                UserDefaults.standard.set(data, forKey: "savedRecipes")
+//                UserDefaults.standard.synchronize()
+//            }
+//            catch {
+//                print("Unable to encode (\(error))")
+//            }
+//        }
+//    }
     
     func changeFavoriteState() {
         let hasFavorite = recipeDetails[0].isFavorite

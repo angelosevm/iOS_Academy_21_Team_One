@@ -10,6 +10,7 @@ import UIKit
 class FavoritesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var viewModels = [FoodTableViewCellViewModel]()
+    var savedFavorites = [FoodTableViewCellViewModel]()
     private var index : Int?
     private let emptyLabel = UILabel()
     @IBOutlet weak var logInLabel: UILabel!
@@ -40,7 +41,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
             if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
                 do {
                     viewModels = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
-                    Favorites.sharedFavorites.favoritesArray = viewModels
+                    savedFavorites = viewModels
                 }
                 catch {
                     print("Unable to decode saved recipes (\(error))")
@@ -73,6 +74,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
             if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
                 do {
                     viewModels = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                    savedFavorites = viewModels
                 }
                 catch {
                     print("Unable to decode saved recipes (\(error))")
@@ -119,6 +121,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
             // transfer recipe details to nextVC
             guard let index = index else { return }
             nextVC.recipeDetails.append(viewModels[index])
+            nextVC.savedFavorites = self.savedFavorites
         }
     }
     
@@ -139,7 +142,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FoodTableViewCell.identifier, for: indexPath) as? FoodTableViewCell else {
             fatalError()
         }
-        cell.configure(with: viewModels[indexPath.row])
+        cell.configure(with: viewModels[indexPath.row], favorites: savedFavorites)
         
         return cell
     }

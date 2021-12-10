@@ -254,9 +254,13 @@ class FoodTableViewCell: UITableViewCell {
         heartImageView.image = nil
     }
     
+    func containsElement(element: FoodTableViewCellViewModel, array: [FoodTableViewCellViewModel]) -> Bool {
+        return array.contains(where: { $0.uri == element.uri } )
+    }
+    
     // MARK: Cell data configuration
     
-    func configure(with viewModel: FoodTableViewCellViewModel?) {
+    func configure(with viewModel: FoodTableViewCellViewModel?, favorites: [FoodTableViewCellViewModel]?) {
         // Fill labels
         foodTitleLabel.text = viewModel?.title
         subtitleLabel.text = viewModel?.subtitle.uppercased()
@@ -278,9 +282,14 @@ class FoodTableViewCell: UITableViewCell {
         guard let viewModel = viewModel else {
             return
         }
-        if Favorites.sharedFavorites.containsElement(element: viewModel) {
+        
+        if containsElement(element: viewModel, array: favorites ?? []) {
             self.heartImageView.image = UIImage(named: "like")
         }
+        
+//        if Favorites.sharedFavorites.containsElement(element: viewModel) {
+//            self.heartImageView.image = UIImage(named: "like")
+//        }
         
         // Configure image
         if let data = viewModel.imageData {

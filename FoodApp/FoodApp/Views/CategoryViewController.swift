@@ -17,6 +17,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     var typeSearched: String = "Main course"
     private let scrollToTopButton = UIButton(type: .custom)
     private var viewModels = [FoodTableViewCellViewModel]()
+    private var savedFavorites = [FoodTableViewCellViewModel]()
     private var index : Int?
     private var totalNumber : Int?
     private var query: String? {
@@ -72,7 +73,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
             // Favorites array
             if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
                 do {
-                    Favorites.sharedFavorites.favoritesArray = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                    savedFavorites = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
                 }
                 catch {
                     print("Unable to decode saved recipes (\(error))")
@@ -84,6 +85,23 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         query = "Main"
         // Default search when launching app
         getData(query!, checkIfConst: false, urlConst: "")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        // if user is logged in, update the Favorites array from User defaults when loading tab
+        if logInState {
+            // Favorites array
+            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+                do {
+                    savedFavorites = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                }
+                catch {
+                    print("Unable to decode saved recipes (\(error))")
+                }
+            }
+        }
     }
     
     @objc func scrollToTopButtonPressed() {
@@ -210,6 +228,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
             // transfer recipe details to nextVC
             guard let index = index else { return }
             nextVC.recipeDetails.append(viewModels[index])
+            nextVC.savedFavorites = self.savedFavorites
         }
     }
     
@@ -241,10 +260,10 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         // if the cell hasn't received a view model, configure it with an empty value (show spinning indicator)
         // else pass the viewModel in the cell
         if isLoadingCell(for: indexPath) {
-            cell.configure(with: .none)
+            cell.configure(with: .none, favorites: .none)
         }
         else {
-            cell.configure(with: viewModels[indexPath.row])
+            cell.configure(with: viewModels[indexPath.row], favorites: savedFavorites)
         }
         
         return cell

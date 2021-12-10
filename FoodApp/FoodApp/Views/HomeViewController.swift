@@ -16,6 +16,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     private let searchVC = UISearchController(searchResultsController: nil)
     private let scrollToTopButton = UIButton(type: .custom)
     private var viewModels = [FoodTableViewCellViewModel]()
+    private var savedFavorites = [FoodTableViewCellViewModel]()
     private var index : Int?
     private var totalNumber : Int?
     private var query: String? {
@@ -69,7 +70,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             // Favorites array
             if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
                 do {
-                    Favorites.sharedFavorites.favoritesArray = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                    savedFavorites = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
                 }
                 catch {
                     print("Unable to decode saved recipes (\(error))")
@@ -81,6 +82,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         query = "Main"
         // Default search when launching app
         getData(query!, checkIfConst: false, urlConst: "")
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        // if user is logged in, update the Favorites array from User defaults when loading tab
+        if logInState {
+            // Favorites array
+            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+                do {
+                    savedFavorites = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
+                }
+                catch {
+                    print("Unable to decode saved recipes (\(error))")
+                }
+            }
+        }
     }
     
     @objc func scrollToTopButtonPressed() {
@@ -205,6 +223,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let nextVC = segue.destination as! RecipeDetails
             // transfer recipe details to nextVC
             guard let index = index else { return }
+            nextVC.savedFavorites = self.savedFavorites
             nextVC.recipeDetails.append(viewModels[index])
         }
     }
@@ -237,10 +256,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // if the cell hasn't received a view model, configure it with an empty value (show spinning indicator)
         // else pass the viewModel in the cell
         if isLoadingCell(for: indexPath) {
-            cell.configure(with: .none)
+            cell.configure(with: .none, favorites: .none)
         }
         else {
-            cell.configure(with: viewModels[indexPath.row])
+            cell.configure(with: viewModels[indexPath.row], favorites: savedFavorites)
         }
         
         return cell
