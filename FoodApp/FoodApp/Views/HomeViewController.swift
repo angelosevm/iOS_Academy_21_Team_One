@@ -19,6 +19,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     private var savedFavorites = [FoodTableViewCellViewModel]()
     private var index : Int?
     private var totalNumber : Int?
+    private var goingForwards = false
     private var query: String? {
         didSet {
             tableView.isHidden = true
@@ -89,6 +90,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
         // if user is logged in, update the Favorites array from User defaults when loading tab
         if logInState {
@@ -101,6 +103,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                     print("Unable to decode saved recipes (\(error))")
                 }
             }
+        }
+    }
+    
+    // MARK: ViewDidAppear
+    // reload cell selected to show updated heart
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if goingForwards == true {
+            goingForwards = false
+            guard let index = index else {
+                return
+            }
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         }
     }
     
@@ -283,6 +298,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         // the recipe we select is at index
         index = indexPath.row
         // go to custom details page
+        goingForwards = true
         performSegue(withIdentifier: "RecipeDetails", sender: nil)
     }
     

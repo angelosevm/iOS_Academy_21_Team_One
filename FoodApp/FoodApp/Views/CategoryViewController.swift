@@ -20,6 +20,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     private var index : Int?
     var typeSearched: String?
     private var totalNumber : Int?
+    private var goingForwards = false
     private var query: String? {
         didSet {
             tableView.isHidden = true
@@ -54,6 +55,11 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         scrollToTopButton.backgroundColor = .white
         scrollToTopButton.addTarget(self, action: #selector(scrollToTopButtonPressed), for: .touchUpInside)
         view.addSubview(scrollToTopButton)
+        
+        // custom back button
+        let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
+        backbutton.tintColor = .black
+        navigationItem.leftBarButtonItem = backbutton
         
         
         // hide navigation contoller when scrolling
@@ -103,6 +109,19 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
                     print("Unable to decode saved recipes (\(error))")
                 }
             }
+        }
+    }
+    
+    // MARK: ViewDidAppear
+    // reload cell selected to show updated heart
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if goingForwards == true {
+            goingForwards = false
+            guard let index = index else {
+                return
+            }
+            tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .automatic)
         }
     }
     
@@ -233,7 +252,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
     
     // segue to next controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "RecipeDetails" {
+        if segue.identifier == "CategoryRecipeDetails" {
             let nextVC = segue.destination as! RecipeDetails
             // if segue is correct transfer recipe details to nextVC
             guard let index = index else { return }
@@ -285,7 +304,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         // the recipe we select is at index
         index = indexPath.row
         // go to custom details page
-        performSegue(withIdentifier: "RecipeDetails", sender: nil)
+        goingForwards = true
+        performSegue(withIdentifier: "CategoryRecipeDetails", sender: nil)
     }
     
     // cell height

@@ -16,6 +16,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var greetingLabel: UILabel!
     @IBOutlet weak var registrationLabel: UILabel!
+    @IBOutlet weak var logoImage: UIImageView!
     
     private let indicatorView: NVActivityIndicatorView = NVActivityIndicatorView(
         frame: CGRect(x: 185, y: 350, width: 50, height: 50),
@@ -31,6 +32,8 @@ class SignUpViewController: UIViewController {
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
         backbutton.tintColor = .black
         navigationItem.leftBarButtonItem = backbutton
+        
+        logoImage.image = UIImage(named: "logoMain")
         
         registrationLabel.text =
         """

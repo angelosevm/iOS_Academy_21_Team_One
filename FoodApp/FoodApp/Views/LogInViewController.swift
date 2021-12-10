@@ -15,6 +15,7 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var greetingLabel: UILabel!
     @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var logoImage: UIImageView!
     
     private let indicatorView: NVActivityIndicatorView = NVActivityIndicatorView(
         frame: CGRect(x: 185, y: 425, width: 50, height: 50),
@@ -30,12 +31,15 @@ class LogInViewController: UIViewController {
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
         backbutton.tintColor = .black
         navigationItem.leftBarButtonItem = backbutton
+        
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
         emailTextField.autocorrectionType = .no
 
         welcomeLabel.text = "Welcome!"
         welcomeLabel.isHidden = true
+        
+        logoImage.image = UIImage(named: "logoMain")
     }
     
     // MARK: ViewDidAppear
