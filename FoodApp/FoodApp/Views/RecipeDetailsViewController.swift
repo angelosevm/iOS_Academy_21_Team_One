@@ -27,8 +27,11 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     let gradientLayer = CAGradientLayer()
     var savedFavorites: [FoodTableViewCellViewModel] = []
     
+    // MARK: ViewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // custom back button
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
         backbutton.tintColor = .white
@@ -37,7 +40,7 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         // favorite button
         let favoriteButton = UIBarButtonItem(image: UIImage(named: "like"), style: .plain, target: self, action: #selector(makeFavorite))
         favoriteButton.tintColor = .white
-
+        
         navigationItem.rightBarButtonItem = favoriteButton
         
         self.navigationController?.isNavigationBarHidden = false
@@ -103,6 +106,8 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         
     }
     
+    // MARK: ViewWillAppear
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // make favorite persist:
@@ -116,10 +121,14 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         }
     }
     
+    // MARK: ViewDidLayoutSubviews
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         gradientLayer.frame = view.bounds
     }
+    
+    // MARK: MakeFavorite Button
     
     // triggers when we tap on the heart icon
     @objc func makeFavorite() {
@@ -159,17 +168,17 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
                     print("Unable to decode saved recipes (\(error))")
                 }
             }
-           
-                savedFavorites.remove(at: indexElement(element: recipeDetails[0], array: savedFavorites))
-                do {
-                    let data = try JSONEncoder().encode(savedFavorites)
-                    UserDefaults.standard.set(data, forKey: "savedRecipes")
-                    UserDefaults.standard.synchronize()
-                }
-                catch {
-                    print("Unable to encode (\(error))")
-                }
+            
+            savedFavorites.remove(at: indexElement(element: recipeDetails[0], array: savedFavorites))
+            do {
+                let data = try JSONEncoder().encode(savedFavorites)
+                UserDefaults.standard.set(data, forKey: "savedRecipes")
+                UserDefaults.standard.synchronize()
             }
+            catch {
+                print("Unable to encode (\(error))")
+            }
+        }
     }
     
     func indexElement(element: FoodTableViewCellViewModel, array: [FoodTableViewCellViewModel]) -> Int {
@@ -179,41 +188,14 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     func containsElement(element: FoodTableViewCellViewModel, array: [FoodTableViewCellViewModel]) -> Bool {
         return array.contains(where: { $0.uri == element.uri } )
     }
-//    // triggers when we tap on the heart icon
-//    @objc func makeFavorite() {
-//        // changes heart icon and isFavorite bool in recipe
-//        changeFavoriteState()
-//        // if recipe is added to favorites, add the recipe to the favorites array and then to User defaults
-//        if recipeDetails[0].isFavorite && !Favorites.sharedFavorites.containsElement(element: recipeDetails[0]) {
-//            Favorites.sharedFavorites.favoritesArray.append(recipeDetails[0])
-//            do {
-//                let data = try JSONEncoder().encode(Favorites.sharedFavorites.favoritesArray)
-//                UserDefaults.standard.set(data, forKey: "savedRecipes")
-//                UserDefaults.standard.synchronize()
-//            }
-//            catch {
-//                print("Unable to encode (\(error))")
-//            }
-//        }
-//        // if recipe is unfavorited, remove the recipe from the favorites array, and set the new array in User defaults
-//        else {
-//            Favorites.sharedFavorites.favoritesArray.remove(at: Favorites.sharedFavorites.indexElement(element: recipeDetails[0]))
-//            do {
-//                let data = try JSONEncoder().encode(Favorites.sharedFavorites.favoritesArray)
-//                UserDefaults.standard.set(data, forKey: "savedRecipes")
-//                UserDefaults.standard.synchronize()
-//            }
-//            catch {
-//                print("Unable to encode (\(error))")
-//            }
-//        }
-//    }
     
     func changeFavoriteState() {
         let hasFavorite = recipeDetails[0].isFavorite
         recipeDetails[0].isFavorite = !hasFavorite
         self.navigationItem.rightBarButtonItem?.tintColor = recipeDetails[0].isFavorite ? UIColor.red : .white
     }
+    
+    // MARK: Table functions
     
     // table view shows ingredient list
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -227,8 +209,9 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         cell.ingredientLabel.text = recipeDetails[0].ingredients[indexPath.row]
         
         return cell
-        
     }
+    
+    // MARK: View Instructions Button
     
     // when hitting the "View instructions" button go to the recipe website
     @IBAction func viewInstructions(_ sender: UIButton) {
@@ -242,6 +225,8 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         present(vc, animated: true)
     }
     
+    // MARK: Share Recipe Button
+    
     // when hitting the "Share this recipe" button, show toolbar for sharing
     @IBAction func shareRecipe(_ sender: UIButton) {
         let text = recipeTitle
@@ -251,7 +236,5 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
-        
     }
-    
 }

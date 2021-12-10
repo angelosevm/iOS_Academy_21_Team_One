@@ -6,15 +6,17 @@
 //
 
 import UIKit
-
+// shoes favorite (saved) recipes
 class FavoritesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     var viewModels = [FoodTableViewCellViewModel]()
     var savedFavorites = [FoodTableViewCellViewModel]()
     private var index : Int?
     private let emptyLabel = UILabel()
     @IBOutlet weak var logInLabel: UILabel!
     @IBOutlet weak var logInButton: UIButton!
+    
+    // MARK: ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +35,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         
         let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
         
-        // if user is logged in, allow for saving favorites by updating the arrays from User defaults
+        // if user IS logged in, allow for saving favorites by updating the arrays from User defaults
         if logInState {
             logInLabel.isHidden = true
             logInButton.isHidden = true
@@ -58,15 +60,17 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         emptyLabel.text = "No saved recipes"
         emptyLabel.textAlignment = .center
         emptyLabel.font = .montserratRegular(size: 20)
-
+        
     }
+    
+    // MARK: ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
         
-        // if user is logged in, allow for saving favorites by updating the arrays from User defaults
+        // if user IS logged in, allow for saving favorites by updating the arrays from User defaults
         if logInState {
             logInLabel.isHidden = true
             logInButton.isHidden = true
@@ -81,7 +85,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
                 }
             }
         }
-
+        
         // if user is NOT logged in, disable favorites functionality and display a message with a button
         else {
             logInLabel.isHidden = false
@@ -92,6 +96,8 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.reloadData()
     }
     
+    // MARK: ViewDidAppear
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if viewModels.count == 0 {
@@ -99,6 +105,8 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         else { emptyLabel.isHidden = true }
     }
+    
+    // MARK: ViewDidLayoutSubviews
     
     // Table frame equal to the entire view
     override func viewDidLayoutSubviews() {
@@ -110,15 +118,16 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         logInButton.layer.masksToBounds = true
         logInButton.titleLabel?.font = UIFont.robotoBold(size: 20)
         logInButton.applyGradient(isVertical: false, colorArray: [.orange1Color, .orange2Color])
-    
+        
     }
     
+    // MARK: Prepare for segue
     
     // segue to next controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "FavoritesRecipeDetails" {
             let nextVC = segue.destination as! RecipeDetails
-            // transfer recipe details to nextVC
+            // if segue is correct transfer recipe details to nextVC
             guard let index = index else { return }
             nextVC.recipeDetails.append(viewModels[index])
             nextVC.savedFavorites = self.savedFavorites
@@ -160,6 +169,8 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         // go to custom details page
         performSegue(withIdentifier: "FavoritesRecipeDetails", sender: nil)
     }
+    
+    // MARK: LogIn Button
     
     @IBAction func logIn(_ sender: Any) {
         let viewController = storyboard?.instantiateViewController(withIdentifier: "TestingView")

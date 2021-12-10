@@ -7,13 +7,15 @@
 
 import UIKit
 import NVActivityIndicatorView
-
+// shows user settings
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userEmailLabel: UILabel!
     @IBOutlet weak var actionButton: UIButton!
     @IBOutlet weak var loggingOutLabel: UILabel!
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var innerFrame: UIImageView!
     
     private let indicatorView: NVActivityIndicatorView = NVActivityIndicatorView(
         frame: CGRect(x: 185, y: 725, width: 50, height: 50),
@@ -22,9 +24,12 @@ class SettingsViewController: UIViewController {
         padding: 0.5
     )
     
+    // MARK: ViewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "SETTINGS"
+        
         loggingOutLabel.text = "Logging you out..."
         loggingOutLabel.isHidden = true
         // Retrieve user data from user defaults
@@ -44,6 +49,8 @@ class SettingsViewController: UIViewController {
     }
     
     let userDefaults = UserDefaults.standard
+    
+    // MARK: ViewDidAppear
     
     override func viewDidAppear(_ animated: Bool) {
         
@@ -65,6 +72,8 @@ class SettingsViewController: UIViewController {
         }
     }
     
+    // MARK: ViewDidLayoutSubviews
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         view.addSubview(indicatorView)
@@ -74,26 +83,43 @@ class SettingsViewController: UIViewController {
         actionButton.tintColor = .white
         actionButton.layer.cornerRadius = 25
         actionButton.layer.cornerCurve = .continuous
+        
+        containerView.layer.cornerRadius = 25
+        containerView.backgroundColor = .white
+        containerView.layer.shadowColor = UIColor.darkGray.cgColor
+        containerView.layer.shadowOpacity = 0.7
+        containerView.layer.shadowRadius = 25
+        containerView.layer.shadowOffset = CGSize(width: 5.0, height: 5.0)
+        
+        innerFrame.clipsToBounds = true
+        innerFrame.layer.cornerRadius = 25
+        innerFrame.applyGradient(isVertical: true, colorArray: [.orange1Color, .orange2Color])
     }
     
+    // MARK: Logout Button
+    
     @IBAction func logoutAction(_ sender: UIButton) {
-        
+        actionButton.isEnabled = false
         let isLoggedIn = userDefaults.bool(forKey: "isUserLoggedIn")
         // if user is logged in, set log in state to false
         if isLoggedIn {
             UserDefaults.standard.set(false, forKey: "isUserLoggedIn")
             UserDefaults.standard.synchronize()
+            
+            // animation for logging out
+            UIView.animate(withDuration: 2.5, animations: animation) { _ in
+                self.indicatorView.stopAnimating()
+                let viewController = self.storyboard?.instantiateViewController(withIdentifier: "TestingView")
+                self.view.window?.rootViewController = viewController
+                self.view.window?.makeKeyAndVisible()
+            }
         }
-        
-        // animation for logging out
-        UIView.animate(withDuration: 2.5, animations: animation) { _ in
-            self.indicatorView.stopAnimating()
+        // else simply take him to starting controller to log in
+        else {
             let viewController = self.storyboard?.instantiateViewController(withIdentifier: "TestingView")
             self.view.window?.rootViewController = viewController
             self.view.window?.makeKeyAndVisible()
         }
-        
-
     }
     
     func animation() {
@@ -101,7 +127,7 @@ class SettingsViewController: UIViewController {
         self.loggingOutLabel.isHidden = false
         self.loggingOutLabel.layer.opacity = 0
         self.loggingOutLabel.transform = CGAffineTransform(translationX: 0,
-                                                             y: self.loggingOutLabel.bounds.origin.y - 30)
+                                                           y: self.loggingOutLabel.bounds.origin.y - 15)
         self.loggingOutLabel.layer.opacity = 1
     }
 }

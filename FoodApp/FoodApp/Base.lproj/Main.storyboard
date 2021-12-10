@@ -556,7 +556,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6H4-Se-6pG">
                                 <rect key="frame" x="20" y="380" width="374" height="24.5"/>
                                 <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
-                                <color key="textColor" red="0.33307046211258318" green="0.81510052777299979" blue="0.37138063631529628" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="textColor" red="0.33333333333333331" green="0.81510052777299979" blue="0.37138063631529628" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -671,15 +671,24 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8I-Ul-KT0">
+                                <rect key="frame" x="20" y="495.5" width="374" height="24.5"/>
+                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="20"/>
+                                <color key="textColor" red="0.33307046210000002" green="0.81510052779999997" blue="0.37138063630000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="kGH-Ja-5KX"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="62X-Ak-Bsl" firstAttribute="leading" secondItem="kGH-Ja-5KX" secondAttribute="leading" constant="20" id="2nG-Ix-1dl"/>
+                            <constraint firstItem="62X-Ak-Bsl" firstAttribute="top" secondItem="b8I-Ul-KT0" secondAttribute="bottom" id="9bP-Xs-e2h"/>
                             <constraint firstItem="duk-Hq-RMc" firstAttribute="top" secondItem="DcC-NK-b9k" secondAttribute="bottom" constant="32" id="AEy-7h-atm"/>
                             <constraint firstItem="duk-Hq-RMc" firstAttribute="leading" secondItem="kGH-Ja-5KX" secondAttribute="leading" constant="20" id="BOM-ns-xMQ"/>
+                            <constraint firstItem="62X-Ak-Bsl" firstAttribute="top" secondItem="b8I-Ul-KT0" secondAttribute="bottom" id="GAm-lM-LSK"/>
                             <constraint firstItem="DcC-NK-b9k" firstAttribute="top" secondItem="62X-Ak-Bsl" secondAttribute="bottom" constant="16" id="GPq-bP-ccQ"/>
                             <constraint firstItem="Q0W-PX-v0N" firstAttribute="top" secondItem="CJR-dE-E1B" secondAttribute="bottom" constant="5" id="OFx-r9-xeF"/>
+                            <constraint firstItem="kGH-Ja-5KX" firstAttribute="trailing" secondItem="b8I-Ul-KT0" secondAttribute="trailing" constant="20" id="W87-CQ-JUh"/>
                             <constraint firstItem="kGH-Ja-5KX" firstAttribute="trailing" secondItem="CJR-dE-E1B" secondAttribute="trailing" constant="20" id="X27-Ye-9K4"/>
                             <constraint firstItem="DcC-NK-b9k" firstAttribute="leading" secondItem="kGH-Ja-5KX" secondAttribute="leading" constant="20" id="dDX-lG-nqf"/>
                             <constraint firstItem="Q0W-PX-v0N" firstAttribute="leading" secondItem="kGH-Ja-5KX" secondAttribute="leading" constant="20" id="faP-Tl-Oqz"/>
@@ -687,6 +696,7 @@
                             <constraint firstItem="CJR-dE-E1B" firstAttribute="top" secondItem="kGH-Ja-5KX" secondAttribute="top" constant="150" id="mJN-9u-naB"/>
                             <constraint firstItem="kGH-Ja-5KX" firstAttribute="trailing" secondItem="duk-Hq-RMc" secondAttribute="trailing" constant="20" id="p9z-Yt-038"/>
                             <constraint firstItem="kGH-Ja-5KX" firstAttribute="trailing" secondItem="DcC-NK-b9k" secondAttribute="trailing" constant="20" id="pIZ-G2-mpm"/>
+                            <constraint firstItem="b8I-Ul-KT0" firstAttribute="leading" secondItem="kGH-Ja-5KX" secondAttribute="leading" constant="20" id="sX3-gE-CU8"/>
                             <constraint firstItem="kGH-Ja-5KX" firstAttribute="trailing" secondItem="62X-Ak-Bsl" secondAttribute="trailing" constant="20" id="tFN-pp-jPQ"/>
                             <constraint firstItem="62X-Ak-Bsl" firstAttribute="top" secondItem="CJR-dE-E1B" secondAttribute="bottom" constant="245" id="tMO-pO-wh0"/>
                             <constraint firstItem="kGH-Ja-5KX" firstAttribute="trailing" secondItem="Q0W-PX-v0N" secondAttribute="trailing" constant="20" id="zI9-Di-CU7"/>
@@ -698,6 +708,7 @@
                         <outlet property="greetingLabel" destination="Q0W-PX-v0N" id="fFg-io-13e"/>
                         <outlet property="logInButton" destination="duk-Hq-RMc" id="W8u-dT-L23"/>
                         <outlet property="passwordTextField" destination="DcC-NK-b9k" id="A0f-LX-ZsW"/>
+                        <outlet property="welcomeLabel" destination="b8I-Ul-KT0" id="RGx-0r-kw9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5G4-6p-RU4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -862,6 +873,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ysx-JD-6LX">
+                                <rect key="frame" x="20" y="308" width="374" height="248"/>
+                            </containerView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gLZ-NX-00X">
+                                <rect key="frame" x="20" y="308" width="374" height="248"/>
+                            </imageView>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="HTH-eQ-OPz">
                                 <rect key="frame" x="132" y="138" width="150" height="150"/>
                                 <constraints>
@@ -916,7 +933,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <color key="tintColor" systemColor="secondarySystemGroupedBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="gLZ-NX-00X" firstAttribute="top" secondItem="Ysx-JD-6LX" secondAttribute="top" id="3aP-VJ-AYd"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="Vd5-gf-dNQ" secondAttribute="trailing" constant="20" id="3g7-o4-WcL"/>
+                            <constraint firstItem="gLZ-NX-00X" firstAttribute="bottom" secondItem="Ysx-JD-6LX" secondAttribute="bottom" id="7LS-I6-vv9"/>
                             <constraint firstItem="dgb-7O-CaP" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" constant="20" id="7gR-SQ-0hC"/>
                             <constraint firstItem="gJv-b4-Mn9" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" constant="20" id="82E-Hd-tAi"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="n0c-qB-Osb" secondAttribute="trailing" constant="20" id="93Q-TU-VS6"/>
@@ -924,9 +943,14 @@
                             <constraint firstItem="dgb-7O-CaP" firstAttribute="top" secondItem="SIm-vZ-tKY" secondAttribute="bottom" constant="48" id="D15-kw-7Yd"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="bottom" secondItem="gJv-b4-Mn9" secondAttribute="bottom" constant="124" id="GUh-Si-B9l"/>
                             <constraint firstItem="SIm-vZ-tKY" firstAttribute="top" secondItem="Vd5-gf-dNQ" secondAttribute="bottom" id="Hh7-H1-QLO"/>
+                            <constraint firstItem="gLZ-NX-00X" firstAttribute="trailing" secondItem="Ysx-JD-6LX" secondAttribute="trailing" id="Ogf-dI-8Tb"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="bottom" secondItem="n0c-qB-Osb" secondAttribute="bottom" constant="175" id="RIr-1N-RBj"/>
+                            <constraint firstItem="n0c-qB-Osb" firstAttribute="top" secondItem="Ysx-JD-6LX" secondAttribute="bottom" constant="62" id="RKR-s3-UmR"/>
+                            <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="Ysx-JD-6LX" secondAttribute="trailing" constant="20" id="Tfj-tO-7V9"/>
+                            <constraint firstItem="Ysx-JD-6LX" firstAttribute="top" secondItem="HTH-eQ-OPz" secondAttribute="bottom" constant="20" id="TiO-1N-lmH"/>
                             <constraint firstItem="HTH-eQ-OPz" firstAttribute="top" secondItem="6KN-4a-XsX" secondAttribute="top" constant="50" id="USc-s2-y15"/>
                             <constraint firstItem="dgb-7O-CaP" firstAttribute="top" secondItem="197-MN-l24" secondAttribute="bottom" id="YZd-i5-dtk"/>
+                            <constraint firstItem="gLZ-NX-00X" firstAttribute="leading" secondItem="Ysx-JD-6LX" secondAttribute="leading" id="aOc-5i-QEB"/>
                             <constraint firstItem="197-MN-l24" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" constant="20" id="bKg-VB-nbv"/>
                             <constraint firstItem="n0c-qB-Osb" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" constant="20" id="mo3-dM-fvL"/>
                             <constraint firstItem="SIm-vZ-tKY" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" constant="20" id="o0g-i1-MNV"/>
@@ -936,11 +960,14 @@
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="SIm-vZ-tKY" secondAttribute="trailing" constant="20" id="xma-Wx-2Bp"/>
                             <constraint firstItem="SIm-vZ-tKY" firstAttribute="top" secondItem="HTH-eQ-OPz" secondAttribute="bottom" constant="91" id="yO0-C5-lgf"/>
                             <constraint firstItem="6KN-4a-XsX" firstAttribute="trailing" secondItem="dgb-7O-CaP" secondAttribute="trailing" constant="20" id="z1e-BK-TtF"/>
+                            <constraint firstItem="Ysx-JD-6LX" firstAttribute="leading" secondItem="6KN-4a-XsX" secondAttribute="leading" constant="20" id="zpl-rk-F98"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Profile" id="9iY-jT-XJj"/>
                     <connections>
                         <outlet property="actionButton" destination="gJv-b4-Mn9" id="vW4-RA-lhT"/>
+                        <outlet property="containerView" destination="Ysx-JD-6LX" id="xKU-MJ-874"/>
+                        <outlet property="innerFrame" destination="gLZ-NX-00X" id="X96-Qv-WE1"/>
                         <outlet property="loggingOutLabel" destination="n0c-qB-Osb" id="4dU-dq-ts3"/>
                         <outlet property="userEmailLabel" destination="dgb-7O-CaP" id="Ov4-01-ct3"/>
                         <outlet property="userNameLabel" destination="SIm-vZ-tKY" id="MZC-zj-15d"/>
@@ -952,7 +979,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="I5O-ff-hdj"/>
+        <segue reference="5vQ-bE-x10"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="avatar" width="512" height="512"/>

@@ -24,6 +24,8 @@ class SignUpViewController: UIViewController {
         padding: 0.5
     )
     
+    // MARK: ViewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
@@ -44,19 +46,23 @@ class SignUpViewController: UIViewController {
         emailTextField.autocorrectionType = .no
     }
     
+    // MARK: ViewDidAppear
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         nameTextField.autocapitalizationType = .none
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
         emailTextField.autocorrectionType = .no
-        
+
         UIView.animate(withDuration: 1) {
             self.greetingLabel.text = "Nice to meet you"
             self.greetingLabel.layer.opacity = 0
             self.greetingLabel.layer.opacity = 1
         }
     }
+    
+    // MARK: ViewDidLayoutSubviews
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -84,11 +90,15 @@ class SignUpViewController: UIViewController {
         signUpButton.layer.cornerCurve = .continuous
     }
     
+    // hide keyboard when pressing on the outside screen
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
+    // MARK: Sign Up Button
+    
     @IBAction func signUp(_ sender: Any) {
+        signUpButton.isEnabled = false
         
         let userName = nameTextField.text
         let userEmail = emailTextField.text
@@ -124,8 +134,6 @@ class SignUpViewController: UIViewController {
             self.view.window?.rootViewController = viewController
             self.view.window?.makeKeyAndVisible()
         }
-        
-        
     }
     
     // Display alert message function if email exists
@@ -142,7 +150,7 @@ class SignUpViewController: UIViewController {
         self.registrationLabel.layer.opacity = 0.7
         self.registrationLabel.transform = CGAffineTransform(translationX: 0,
                                                              y: self.registrationLabel.bounds.origin.y - 15)
-        self.registrationLabel.layer.opacity = 1
+        self.registrationLabel.layer.opacity = 0.9
     }
     
 }

@@ -15,6 +15,8 @@ class CategoryTableViewController: UIViewController, UITableViewDelegate, UITabl
     
     @IBOutlet weak var customTableView: UITableView!
     
+    // MARK: ViewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = "CATEGORIES"
@@ -23,24 +25,25 @@ class CategoryTableViewController: UIViewController, UITableViewDelegate, UITabl
         customTableView.dataSource = self
     }
     
+    // MARK: Prepare for segue
+    
     // segue to next controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //self.navigationItem.title = "Main View"
         if segue.identifier == "CategorySegue" {
             let nextVC = segue.destination as! CategoryViewController
-            // transfer category label to nextVC
+            // if segue is correct, transfer category label to nextVC
             guard let index = index else { return }
             nextVC.typeSearched = options[index]
         }
     }
     
+    // MARK: Table functions
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return options.count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
@@ -64,7 +67,4 @@ class CategoryTableViewController: UIViewController, UITableViewDelegate, UITabl
         // go to category VC
         performSegue(withIdentifier: "CategorySegue", sender: nil)
     }
-      
-    
-
 }

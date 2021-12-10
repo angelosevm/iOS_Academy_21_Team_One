@@ -96,7 +96,7 @@ final class APICaller {
     }
 }
 
-// MARK: Models
+// MARK: JSON Models
 
 struct APIResponse: Codable {
     let hits: [RecipeLinks]

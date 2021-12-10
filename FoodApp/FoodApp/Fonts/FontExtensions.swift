@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// MARK: Fonts used for faster typing
 
 extension UIFont {
     static func robotoRegular(size: CGFloat) -> UIFont? {

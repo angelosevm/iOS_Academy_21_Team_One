@@ -10,7 +10,7 @@ import UIKit
 
 
 class StartingViewController: UIViewController {
-
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var signUpButton: UIButton!
@@ -23,6 +23,8 @@ class StartingViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    // MARK: ViewWillAppear
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
@@ -33,17 +35,11 @@ class StartingViewController: UIViewController {
         }
         
         // define colors
-        //let colorPink = UIColor(red: 243/255, green: 129/255, blue: 129/255, alpha: 0.95).cgColor
-        //let colorPurple = UIColor(red: 249/255, green: 120/255, blue: 249/255, alpha: 0.98).cgColor
         let colorShade1 = UIColor(red: 249/255, green: 202/255, blue: 100/255, alpha: 0.98).cgColor
         let colorShade2 = UIColor(red: 219/255, green: 164/255, blue: 88/255, alpha: 0.86).cgColor
         let colorShade3 = UIColor(red: 219/255, green: 126/255, blue: 88/255, alpha: 0.86).cgColor
         let colorShade4 = UIColor(red: 249/255, green: 121/255, blue: 100/255, alpha: 0.98).cgColor
-        //let colorShade5 = UIColor(red: 242/255, green: 167/255, blue: 109/255, alpha: 0.95).cgColor
-        //let colorShade6 = UIColor(red: 250/255, green: 143/255, blue: 83/255, alpha: 0.98).cgColor
-        //let colorShade7 = UIColor(red: 222/255, green: 105/255, blue: 73/255, alpha: 0.87).cgColor
         let colorShade8 = UIColor(red: 222/255, green: 73/255, blue: 114/255, alpha: 0.87).cgColor
-        //let colorShade9 = UIColor(red: 250/255, green: 83/255, blue: 212/255, alpha: 0.98).cgColor
         let colorShade10 = UIColor(red: 245/255, green: 103/255, blue: 92/255, alpha: 0.96).cgColor
         
         // create the gradient layer
@@ -71,6 +67,8 @@ class StartingViewController: UIViewController {
         self.view.layer.insertSublayer(gradient, at: 0)
     }
     
+    // MARK: ViewDidLayoutSubviews
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -80,14 +78,14 @@ class StartingViewController: UIViewController {
         titleLabel.shadowOffset = CGSize(width: 2, height: 3)
         titleLabel.layer.shadowOpacity = 1
         titleLabel.layer.shadowRadius = 25
-
+        
         logInButton.layer.masksToBounds = true
         logInButton.titleLabel?.font = UIFont.robotoBold(size: 20)
         logInButton.applyGradient(isVertical: false, colorArray: [.orange1Color, .orange2Color])
         logInButton.tintColor = .white
         logInButton.layer.cornerRadius = 25
         logInButton.layer.cornerCurve = .continuous
-
+        
         signUpButton.layer.masksToBounds = true
         signUpButton.titleLabel?.font = UIFont.robotoBold(size: 20)
         signUpButton.backgroundColor = .white
@@ -96,9 +94,11 @@ class StartingViewController: UIViewController {
         signUpButton.layer.cornerCurve = .continuous
         signUpButton.layer.borderWidth = 2.5
         signUpButton.layer.borderColor = CGColor(red: 255/255, green: 140/255, blue: 43/255, alpha: 1)
-
+        
         continueAsGuestButton.titleLabel?.font = UIFont.montserratRegular(size: 16)
     }
+    
+    // MARK: Guest Button
     
     @IBAction func guestButton(_ sender: Any) {
         

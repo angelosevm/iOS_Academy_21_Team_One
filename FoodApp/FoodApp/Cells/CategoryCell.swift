@@ -6,10 +6,9 @@
 //
 
 import UIKit
-
+// cell for showing categories
 class CategoryCell: UITableViewCell {
 
-    
     @IBOutlet weak var categoryCell: UILabel!
     
     override func layoutSubviews() {

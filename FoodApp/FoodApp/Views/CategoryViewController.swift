@@ -1,8 +1,8 @@
 //
-//  CategoryViewController.swift
+//  ViewController.swift
 //  FoodApp
 //
-//  Created by Nikolaos Mikrogeorgiou on 28/11/21.
+//  Created by Nikolaos Mikrogeorgiou on 23/11/21.
 //
 
 import UIKit
@@ -10,15 +10,15 @@ import SafariServices
 import NVActivityIndicatorView
 
 // MARK: Data and search functions
-
+// shows home screen
 class CategoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITableViewDataSourcePrefetching {
     
     private let searchVC = UISearchController(searchResultsController: nil)
-    var typeSearched: String = "Main course"
     private let scrollToTopButton = UIButton(type: .custom)
     private var viewModels = [FoodTableViewCellViewModel]()
     private var savedFavorites = [FoodTableViewCellViewModel]()
     private var index : Int?
+    var typeSearched: String?
     private var totalNumber : Int?
     private var query: String? {
         didSet {
@@ -37,15 +37,14 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         padding: 0.5
     )
     
+    // MARK: ViewDidLoad
+    
     override func viewDidLoad() {
         // setup the view
         super.viewDidLoad()
-        self.navigationItem.title = "\(typeSearched)"
+        self.navigationItem.title = "\(typeSearched!)"
         view.addSubview(tableView)
         view.addSubview(indicatorView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.separatorStyle = .none
         
         // create scroll to top button
         scrollToTopButton.frame = CGRect(x: 350, y: 770, width: 40, height: 40)
@@ -56,15 +55,16 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         scrollToTopButton.addTarget(self, action: #selector(scrollToTopButtonPressed), for: .touchUpInside)
         view.addSubview(scrollToTopButton)
         
+        
         // hide navigation contoller when scrolling
         self.navigationController?.hidesBarsOnSwipe = true
         
         indicatorView.startAnimating()
         
-        // custom back button
-        let backbutton = UIBarButtonItem(image: UIImage(named: "ic_arrow_back"), style: .plain, target: navigationController, action: #selector(UINavigationController.popViewController(animated:)))
-        backbutton.tintColor = .black
-        navigationItem.leftBarButtonItem = backbutton
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.prefetchDataSource = self
+        tableView.separatorStyle = .none
         
         let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
         
@@ -87,6 +87,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         getData(query!, checkIfConst: false, urlConst: "")
     }
     
+    // MARK: ViewWillAppear
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
@@ -104,6 +106,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    // MARK: Scroll Button + Search Bar
+    
     @objc func scrollToTopButtonPressed() {
         UIButton.animate(withDuration: 0.5) {
             self.scrollToTopButton.backgroundColor = .systemOrange
@@ -112,6 +116,13 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         let topRow = IndexPath(row: 0, section: 0)
         self.tableView.scrollToRow(at: topRow,at: .top, animated: true)
         self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    
+    // show the search bar as a navigation bar item
+    private func createSearchBar() {
+        navigationItem.searchController = searchVC
+        searchVC.searchBar.delegate = self
     }
     
     // when the search button is clicked, perform an API call
@@ -127,6 +138,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         // test lines
     }
     
+    // MARK: Data Network Call
+    
     // use the API caller to tranfer data into the cell view model
     func getData(_ query: String, checkIfConst: Bool, urlConst: String) {
         // if a fetch request is already in progress bail out (prevents multiple requests from happening)
@@ -136,7 +149,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         // if a fetch request is not in progress, send the request in
         isFetchInProgress = true
         
-        APICaller.shared.getRecipes(searchTerm: query, type: "\(typeSearched)", hasType: true,
+        APICaller.shared.getRecipes(searchTerm: query, type: "\(typeSearched!)", hasType: true,
                                     const: checkIfConst, urlConst: urlConst) { [weak self] result in
             switch result {
                 // if the request is successful append the new item (20 recipes per response) in the viewModels array
@@ -180,6 +193,8 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         }
     }
     
+    // MARK: Table helper functions
+    
     // calculate the index paths for the last page of viewModels received
     // this path will be used to refresh only the changed content instead of reloading the full table
     private func calculateIndexPathsToReload(from newViewModels: [RecipeLinks]) -> [IndexPath] {
@@ -214,21 +229,16 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.reloadRows(at: indexPathsToReload, with: .automatic)
     }
     
-    
-    // show the search bar as a navigation bar item
-    private func createSearchBar() {
-        navigationItem.searchController = searchVC
-        searchVC.searchBar.delegate = self
-    }
+    // MARK: Prepare for segue
     
     // segue to next controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "CategoryRecipeDetails" {
+        if segue.identifier == "RecipeDetails" {
             let nextVC = segue.destination as! RecipeDetails
-            // transfer recipe details to nextVC
+            // if segue is correct transfer recipe details to nextVC
             guard let index = index else { return }
-            nextVC.recipeDetails.append(viewModels[index])
             nextVC.savedFavorites = self.savedFavorites
+            nextVC.recipeDetails.append(viewModels[index])
         }
     }
     
@@ -247,7 +257,7 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         return table
     }()
     
-    // number of table rows is equal to the number of recipes we get back
+    // number of table rows is equal to the total number of recipes we will receive (even if the table is not full yet)
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.totalNumber ?? viewModels.count
     }
@@ -269,13 +279,13 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
-    // when selecting a recipe, transfer user to recipe website using SafariServices
+    // when selecting a recipe, transfer user to recipe details
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         // the recipe we select is at index
         index = indexPath.row
         // go to custom details page
-        performSegue(withIdentifier: "CategoryRecipeDetails", sender: nil)
+        performSegue(withIdentifier: "RecipeDetails", sender: nil)
     }
     
     // cell height
@@ -291,5 +301,5 @@ class CategoryViewController: UIViewController, UITableViewDelegate, UITableView
             getData(query!, checkIfConst: true, urlConst: urlConst)
         }
     }
-    
 }
+

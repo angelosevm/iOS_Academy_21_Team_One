@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import NVActivityIndicatorView
 
 class LogInViewController: UIViewController {
     
@@ -13,6 +14,16 @@ class LogInViewController: UIViewController {
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var greetingLabel: UILabel!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    
+    private let indicatorView: NVActivityIndicatorView = NVActivityIndicatorView(
+        frame: CGRect(x: 185, y: 425, width: 50, height: 50),
+        type: NVActivityIndicatorType.ballBeat,
+        color: .black,
+        padding: 0.5
+    )
+    
+    // MARK: ViewDidLoad
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,13 +33,20 @@ class LogInViewController: UIViewController {
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
         emailTextField.autocorrectionType = .no
+
+        welcomeLabel.text = "Welcome!"
+        welcomeLabel.isHidden = true
     }
+    
+    // MARK: ViewDidAppear
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         emailTextField.keyboardType = .emailAddress
         emailTextField.autocapitalizationType = .none
         emailTextField.autocorrectionType = .no
+
+        welcomeLabel.isHidden = true
         
         UIView.animate(withDuration: 1) {
             self.greetingLabel.text = "Good to see you again"
@@ -37,11 +55,14 @@ class LogInViewController: UIViewController {
         }
     }
     
+    // MARK: ViewDidLayoutSubviews
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         let colorShade1 = UIColor(red: 249/255, green: 202/255, blue: 100/255, alpha: 0.98).cgColor
         let colorShade4 = UIColor(red: 249/255, green: 121/255, blue: 100/255, alpha: 0.98).cgColor
+        
         // create the gradient layer
         let gradient = CAGradientLayer()
         gradient.frame = self.view.bounds
@@ -49,6 +70,8 @@ class LogInViewController: UIViewController {
         gradient.endPoint = CGPoint(x:1.0, y:1.0)
         gradient.colors = [colorShade1, colorShade4]
         gradient.locations =  [-0.5, 1.5]
+        
+        self.view.addSubview(indicatorView)
         
         // add the gradient to the view
         self.view.layer.insertSublayer(gradient, at: 0)
@@ -61,11 +84,15 @@ class LogInViewController: UIViewController {
         logInButton.layer.cornerCurve = .continuous
     }
     
+    // hide keyboard when pressing on the outside screen
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
     
+    // MARK: Log In Button
+    
     @IBAction func logIn(_ sender: Any) {
+        logInButton.isEnabled = false
         
         let userEmail = emailTextField.text
         let userPassword = passwordTextField.text
@@ -98,8 +125,21 @@ class LogInViewController: UIViewController {
             self.present(alertMessage, animated: true, completion: nil)
         }
         
-        let viewController = storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-        view.window?.rootViewController = viewController
-        view.window?.makeKeyAndVisible()
+        // animation for logging in
+        UIView.animate(withDuration: 2.5, animations: animation) { _ in
+            self.indicatorView.stopAnimating()
+            let viewController = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
+            self.view.window?.rootViewController = viewController
+            self.view.window?.makeKeyAndVisible()
+        }
+    }
+    
+    func animation() {
+        self.indicatorView.startAnimating()
+        self.welcomeLabel.isHidden = false
+        self.welcomeLabel.layer.opacity = 0
+        self.welcomeLabel.transform = CGAffineTransform(translationX: 0,
+                                                        y: self.welcomeLabel.bounds.origin.y - 20)
+        self.welcomeLabel.layer.opacity = 0.9
     }
 }

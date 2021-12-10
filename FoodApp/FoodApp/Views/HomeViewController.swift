@@ -10,7 +10,7 @@ import SafariServices
 import NVActivityIndicatorView
 
 // MARK: Data and search functions
-
+// shows home screen
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITableViewDataSourcePrefetching {
     
     private let searchVC = UISearchController(searchResultsController: nil)
@@ -36,6 +36,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         padding: 0.5
     )
     
+    // MARK: ViewDidLoad
+    
     override func viewDidLoad() {
         // setup the view
         super.viewDidLoad()
@@ -51,7 +53,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         scrollToTopButton.backgroundColor = .white
         scrollToTopButton.addTarget(self, action: #selector(scrollToTopButtonPressed), for: .touchUpInside)
         view.addSubview(scrollToTopButton)
-        
         
         // hide navigation contoller when scrolling
         self.navigationController?.hidesBarsOnSwipe = true
@@ -77,12 +78,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
             }
         }
-
+        
         createSearchBar()
         query = "Main"
         // Default search when launching app
         getData(query!, checkIfConst: false, urlConst: "")
     }
+    
+    // MARK: ViewWillAppear
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -101,6 +104,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // MARK: Scroll Button + Search Bar
+    
     @objc func scrollToTopButtonPressed() {
         UIButton.animate(withDuration: 0.5) {
             self.scrollToTopButton.backgroundColor = .systemOrange
@@ -109,6 +114,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let topRow = IndexPath(row: 0, section: 0)
         self.tableView.scrollToRow(at: topRow,at: .top, animated: true)
         self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    
+    // show the search bar as a navigation bar item
+    private func createSearchBar() {
+        navigationItem.searchController = searchVC
+        searchVC.searchBar.delegate = self
     }
     
     // when the search button is clicked, perform an API call
@@ -123,6 +135,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         getData(query!, checkIfConst: false, urlConst: "")
         // test lines
     }
+    
+    // MARK: Data Network Call
     
     // use the API caller to tranfer data into the cell view model
     func getData(_ query: String, checkIfConst: Bool, urlConst: String) {
@@ -177,6 +191,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // MARK: Table helper functions
+    
     // calculate the index paths for the last page of viewModels received
     // this path will be used to refresh only the changed content instead of reloading the full table
     private func calculateIndexPathsToReload(from newViewModels: [RecipeLinks]) -> [IndexPath] {
@@ -211,17 +227,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.reloadRows(at: indexPathsToReload, with: .automatic)
     }
     
-    // show the search bar as a navigation bar item
-    private func createSearchBar() {
-        navigationItem.searchController = searchVC
-        searchVC.searchBar.delegate = self
-    }
+    // MARK: Prepare for segue
     
     // segue to next controller
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "RecipeDetails" {
             let nextVC = segue.destination as! RecipeDetails
-            // transfer recipe details to nextVC
+            // if segue is correct transfer recipe details to nextVC
             guard let index = index else { return }
             nextVC.savedFavorites = self.savedFavorites
             nextVC.recipeDetails.append(viewModels[index])
@@ -287,6 +299,5 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             getData(query!, checkIfConst: true, urlConst: urlConst)
         }
     }
-    
 }
 

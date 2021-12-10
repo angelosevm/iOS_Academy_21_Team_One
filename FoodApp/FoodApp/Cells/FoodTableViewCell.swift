@@ -55,7 +55,7 @@ class FoodTableViewCellViewModel: Codable {
 // MARK: Cell view configuration
 
 class FoodTableViewCell: UITableViewCell {
-
+    
     static let identifier = "FoodTableViewCell"
     
     // 6 table view (subviews) for each table cell
@@ -172,34 +172,34 @@ class FoodTableViewCell: UITableViewCell {
         
         // label frames and settings
         foodTitleLabel.frame = CGRect(
-              x: 10,
-              y: contentView.frame.size.height - 112,
-              width: contentView.frame.size.width - 20,
-              height: 50
+            x: 10,
+            y: contentView.frame.size.height - 112,
+            width: contentView.frame.size.width - 20,
+            height: 50
         )
         foodTitleLabel.textAlignment = .justified
         
         subtitleLabel.frame = CGRect(
-              x: 10,
-              y: contentView.frame.size.height - 150,
-              width: contentView.frame.size.width,
-              height: 50
+            x: 10,
+            y: contentView.frame.size.height - 150,
+            width: contentView.frame.size.width,
+            height: 50
         )
         
         foodImageView.frame = CGRect(
-              x: 0,
-              y: 0,
-              width: contentView.frame.size.width,
-              height: contentView.frame.size.height - 150
+            x: 0,
+            y: 0,
+            width: contentView.frame.size.width,
+            height: contentView.frame.size.height - 150
         )
         foodImageView.layer.borderWidth = 2.0
         foodImageView.layer.borderColor = CGColor(red: 255/255, green: 140/255, blue: 43/255, alpha: 1)
         
         timeLabel.frame = CGRect(
-              x: 25,
-              y: contentView.frame.size.height - 65,
-              width: 160,
-              height: 50
+            x: 25,
+            y: contentView.frame.size.height - 65,
+            width: 160,
+            height: 50
         )
         //timeLabel.backgroundColor = .systemPurple
         timeLabel.textAlignment = .center
@@ -208,10 +208,10 @@ class FoodTableViewCell: UITableViewCell {
         clockView.rightAnchor.constraint(equalTo: timeLabel.leftAnchor, constant: 18).isActive = true
         
         caloriesLabel.frame = CGRect(
-              x: 185,
-              y: contentView.frame.size.height - 65,
-              width: 75,
-              height: 50
+            x: 185,
+            y: contentView.frame.size.height - 65,
+            width: 75,
+            height: 50
         )
         //caloriesLabel.backgroundColor = .systemTeal
         caloriesLabel.textAlignment = .center
@@ -220,10 +220,10 @@ class FoodTableViewCell: UITableViewCell {
         calorieView.rightAnchor.constraint(equalTo: caloriesLabel.leftAnchor, constant: 13).isActive = true
         
         servingsLabel.frame = CGRect(
-              x: 260,
-              y: contentView.frame.size.height - 65,
-              width: 125,
-              height: 50
+            x: 260,
+            y: contentView.frame.size.height - 65,
+            width: 125,
+            height: 50
         )
         //servingsLabel.backgroundColor = .systemMint
         servingsLabel.textAlignment = .center
@@ -236,7 +236,7 @@ class FoodTableViewCell: UITableViewCell {
             y: 0,
             width: 50,
             height: 50
-      )
+        )
         subtitleLabel.addSubview(heartImageView)
         heartImageView.centerYAnchor.constraint(equalTo: subtitleLabel.centerYAnchor, constant: 0).isActive = true
         heartImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20).isActive = true
@@ -254,18 +254,18 @@ class FoodTableViewCell: UITableViewCell {
         heartImageView.image = nil
     }
     
+    // MARK: Cell data configuration
+    
     func containsElement(element: FoodTableViewCellViewModel, array: [FoodTableViewCellViewModel]) -> Bool {
         return array.contains(where: { $0.uri == element.uri } )
     }
-    
-    // MARK: Cell data configuration
     
     func configure(with viewModel: FoodTableViewCellViewModel?, favorites: [FoodTableViewCellViewModel]?) {
         // Fill labels
         foodTitleLabel.text = viewModel?.title
         subtitleLabel.text = viewModel?.subtitle.uppercased()
         timeLabel.text = String(Int(viewModel?.time ?? 0)) + " minutes"
-
+        
         // divide calories with servings to create calories/servings
         let numberOfServings = viewModel?.servings ?? 0
         if numberOfServings == 0 {
@@ -286,10 +286,6 @@ class FoodTableViewCell: UITableViewCell {
         if containsElement(element: viewModel, array: favorites ?? []) {
             self.heartImageView.image = UIImage(named: "like")
         }
-        
-//        if Favorites.sharedFavorites.containsElement(element: viewModel) {
-//            self.heartImageView.image = UIImage(named: "like")
-//        }
         
         // Configure image
         if let data = viewModel.imageData {
