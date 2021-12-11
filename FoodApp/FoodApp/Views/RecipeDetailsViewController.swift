@@ -25,7 +25,7 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     var recipeDetails: [FoodTableViewCellViewModel] = []
     let gradientLayer = CAGradientLayer()
-    var savedFavorites: [FoodTableViewCellViewModel] = []
+    private var users = [Users]()
     
     // MARK: ViewDidLoad
     
@@ -45,7 +45,17 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         
         self.navigationController?.isNavigationBarHidden = false
         
-        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        let logInState = Users.currentUser.isLoggedIn
+        
+        // retrieve all users stored in User defaults
+        if let data = UserDefaults.standard.data(forKey: "users") {
+            do {
+                users = try JSONDecoder().decode([Users].self, from: data)
+            }
+            catch {
+                print("Unable to decode saved users (\(error))")
+            }
+        }
         
         // if user is logged in the makeFavorite button exists
         if logInState {
@@ -113,7 +123,7 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         // make favorite persist:
         // every time we enter the details page, we must check if the item exists in favorites array
         // and change the heart color accordingly
-        if containsElement(element: recipeDetails[0], array: savedFavorites) {
+        if containsElement(element: recipeDetails[0], array: Users.currentUser.savedRecipes) {
             self.navigationItem.rightBarButtonItem?.tintColor = .red
         }
         else {
@@ -136,43 +146,29 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
         changeFavoriteState()
         // if the recipe is favorite, get the favorites array from User defaults, add the item to the array
         // and save the new array back to User defaults
-        if recipeDetails[0].isFavorite {
-            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
+        if recipeDetails[0].isFavorite &&  !containsElement(element: recipeDetails[0], array: Users.currentUser.savedRecipes) {
+            Users.currentUser.savedRecipes.append(recipeDetails[0])
+            let userIndex = Users.currentUser.index
+            users[userIndex].savedRecipes = Users.currentUser.savedRecipes
                 do {
-                    savedFavorites = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
-                }
-                catch {
-                    print("Unable to decode saved recipes (\(error))")
-                }
-            }
-            if !containsElement(element: recipeDetails[0], array: savedFavorites) {
-                savedFavorites.append(recipeDetails[0])
-                do {
-                    let data = try JSONEncoder().encode(savedFavorites)
-                    UserDefaults.standard.set(data, forKey: "savedRecipes")
+                    let data = try JSONEncoder().encode(users)
+                    UserDefaults.standard.set(data, forKey: "users")
                     UserDefaults.standard.synchronize()
                 }
                 catch {
                     print("Unable to encode (\(error))")
                 }
-            }
+            
         }
         // if the recipe is not a favorite, get the favorites array from User defaults, remove the item from the array
         // and save the new array back to User defaults
         else {
-            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
-                do {
-                    savedFavorites = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
-                }
-                catch {
-                    print("Unable to decode saved recipes (\(error))")
-                }
-            }
-            
-            savedFavorites.remove(at: indexElement(element: recipeDetails[0], array: savedFavorites))
+            Users.currentUser.savedRecipes.remove(at: indexElement(element: recipeDetails[0], array: Users.currentUser.savedRecipes))
+            let userIndex = Users.currentUser.index
+            users[userIndex].savedRecipes = Users.currentUser.savedRecipes
             do {
-                let data = try JSONEncoder().encode(savedFavorites)
-                UserDefaults.standard.set(data, forKey: "savedRecipes")
+                let data = try JSONEncoder().encode(users)
+                UserDefaults.standard.set(data, forKey: "users")
                 UserDefaults.standard.synchronize()
             }
             catch {

@@ -33,9 +33,9 @@ class SettingsViewController: UIViewController {
         loggingOutLabel.text = "Logging you out..."
         loggingOutLabel.isHidden = true
         // Retrieve user data from user defaults
-        let nameStored = userDefaults.string(forKey: "userName")
-        let emailStored = userDefaults.string(forKey: "userEmail")
-        let isLoggedIn = userDefaults.bool(forKey: "isUserLoggedIn")
+        let nameStored = Users.currentUser.username
+        let emailStored = Users.currentUser.email
+        let isLoggedIn = Users.currentUser.isLoggedIn
         
         if isLoggedIn {
             self.userNameLabel.text = nameStored
@@ -55,9 +55,9 @@ class SettingsViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         // Retrieve user data from user defaults
-        let nameStored = userDefaults.string(forKey: "userName")
-        let emailStored = userDefaults.string(forKey: "userEmail")
-        let isLoggedIn = userDefaults.bool(forKey: "isUserLoggedIn")
+        let nameStored = Users.currentUser.username
+        let emailStored = Users.currentUser.email
+        let isLoggedIn = Users.currentUser.isLoggedIn
         
         // If a user is logged in, their name and email appears, as well as the option to logout
         // otherwise, they can only login
@@ -100,12 +100,11 @@ class SettingsViewController: UIViewController {
     
     @IBAction func logoutAction(_ sender: UIButton) {
         actionButton.isEnabled = false
-        let isLoggedIn = userDefaults.bool(forKey: "isUserLoggedIn")
+        
+        let isLoggedIn = Users.currentUser.isLoggedIn
         // if user is logged in, set log in state to false
         if isLoggedIn {
-            UserDefaults.standard.set(false, forKey: "isUserLoggedIn")
-            UserDefaults.standard.synchronize()
-            
+            Users.currentUser.isLoggedIn = false
             // animation for logging out
             UIView.animate(withDuration: 2.5, animations: animation) { _ in
                 self.indicatorView.stopAnimating()

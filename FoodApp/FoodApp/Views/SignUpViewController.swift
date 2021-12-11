@@ -98,6 +98,15 @@ class SignUpViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    func indexElement(element: String, array: [Users]) -> Int {
+        return array.firstIndex(where: { $0.email == element } ) ?? 0
+    }
+    
+    func containsElement(element: String, array: [Users]) -> Bool {
+        return array.contains(where: { $0.email == element } )
+    }
+    
+    
     // MARK: Sign Up Button
     
     @IBAction func signUp(_ sender: Any) {
@@ -106,7 +115,10 @@ class SignUpViewController: UIViewController {
         let userName = nameTextField.text
         let userEmail = emailTextField.text
         let userPassword = passwordTextField.text
-        let uuid = UUID().uuidString
+        
+        var users = [Users]()
+        
+        print("Current users: \(users.count)")
         
         // Check if any of the fields is empty
         if (userName?.isEmpty ?? true || userEmail?.isEmpty
@@ -115,19 +127,42 @@ class SignUpViewController: UIViewController {
             return
         }
         
-        // Store users in user defaults
-        // Check if email already exists
-        let emailStored = UserDefaults.standard.string(forKey: "userEmail")
-        if userEmail == emailStored {
-            displayAlert(message: "Email already exists. Please choose a different one.")
-            return
-        } else {
-            UserDefaults.standard.set(userName, forKey: "userName")
-            UserDefaults.standard.set(userEmail, forKey: "userEmail")
+        // retrieve all users stored in User defaults
+        if let data = UserDefaults.standard.data(forKey: "users") {
+            do {
+                users = try JSONDecoder().decode([Users].self, from: data)
+            }
+            catch {
+                print("Unable to decode saved users (\(error))")
+            }
         }
-        UserDefaults.standard.set(userPassword, forKey: "userPassword")
-        UserDefaults.standard.set(uuid, forKey: "UUID")
-        UserDefaults.standard.synchronize()
+        
+        // check if email already exists
+        if containsElement(element: userEmail!, array: users) {
+            displayAlert(message: "Email already exists. Please choose a different one.")
+            signUpButton.isEnabled = true
+            return
+        }
+        // if email doesn't exist, create and store new user
+        // users singleton now contains current User that signed up and can be used to retrieve or store recipes
+        else {
+            Users.currentUser.email = userEmail!
+            Users.currentUser.password = userPassword!
+            Users.currentUser.username = userName!
+            users.append(Users.currentUser)
+            let userIndex = indexElement(element: Users.currentUser.email, array: users)
+            Users.currentUser.savedRecipes = users[userIndex].savedRecipes
+            Users.currentUser.isLoggedIn = true
+            Users.currentUser.index = userIndex
+            do {
+                let data = try JSONEncoder().encode(users)
+                UserDefaults.standard.set(data, forKey: "users")
+                UserDefaults.standard.synchronize()
+            }
+            catch {
+                print("Unable to encode (\(error))")
+            }
+        }
         
         // animation at successful registration
         UIView.animate(withDuration: 2.5, animations: animation) { _ in
@@ -152,7 +187,7 @@ class SignUpViewController: UIViewController {
         self.registrationLabel.isHidden = false
         self.registrationLabel.layer.opacity = 0.7
         self.registrationLabel.transform = CGAffineTransform(translationX: 0,
-                                                             y: self.registrationLabel.bounds.origin.y - 15)
+                                                             y: self.registrationLabel.bounds.origin.y - 13)
         self.registrationLabel.layer.opacity = 0.9
     }
     

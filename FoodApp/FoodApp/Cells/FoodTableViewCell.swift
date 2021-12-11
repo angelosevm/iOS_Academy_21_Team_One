@@ -260,7 +260,7 @@ class FoodTableViewCell: UITableViewCell {
         return array.contains(where: { $0.uri == element.uri } )
     }
     
-    func configure(with viewModel: FoodTableViewCellViewModel?, favorites: [FoodTableViewCellViewModel]?) {
+    func configure(with viewModel: FoodTableViewCellViewModel?) {
         // Fill labels
         foodTitleLabel.text = viewModel?.title
         subtitleLabel.text = viewModel?.subtitle.uppercased()
@@ -283,7 +283,7 @@ class FoodTableViewCell: UITableViewCell {
             return
         }
         
-        if containsElement(element: viewModel, array: favorites ?? []) {
+        if containsElement(element: viewModel, array: Users.currentUser.savedRecipes) {
             self.heartImageView.image = UIImage(named: "like")
         }
         

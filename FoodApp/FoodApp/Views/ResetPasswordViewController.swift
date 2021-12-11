@@ -1,21 +1,22 @@
 //
-//  LogInViewController.swift
+//  ResetPassword.swift
 //  FoodApp
 //
-//  Created by Nikolaos Mikrogeorgiou on 3/12/21.
+//  Created by Nikolaos Mikrogeorgiou on 11/12/21.
 //
 
 import UIKit
 import NVActivityIndicatorView
 
-class LogInViewController: UIViewController {
+class ResetPassword: UIViewController {
     
-    @IBOutlet weak var logInButton: UIButton!
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var greetingLabel: UILabel!
-    @IBOutlet weak var welcomeLabel: UILabel!
     @IBOutlet weak var logoImage: UIImageView!
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var newPasswordTextField: UITextField!
+    @IBOutlet weak var confirmPasswordTextField: UITextField!
+    @IBOutlet weak var resetPasswordButton: UIButton!
+    @IBOutlet weak var passwordChangedLabel: UILabel!
+    
     
     private let indicatorView: NVActivityIndicatorView = NVActivityIndicatorView(
         frame: CGRect(x: 185, y: 425, width: 50, height: 50),
@@ -32,12 +33,8 @@ class LogInViewController: UIViewController {
         backbutton.tintColor = .black
         navigationItem.leftBarButtonItem = backbutton
         
-        emailTextField.keyboardType = .emailAddress
-        emailTextField.autocapitalizationType = .none
-        emailTextField.autocorrectionType = .no
-        
-        welcomeLabel.text = "Welcome!"
-        welcomeLabel.isHidden = true
+        passwordChangedLabel.text = "Password changed."
+        passwordChangedLabel.isHidden = true
         
         logoImage.image = UIImage(named: "logoMain")
     }
@@ -46,22 +43,8 @@ class LogInViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        emailTextField.keyboardType = .emailAddress
-        emailTextField.autocapitalizationType = .none
-        emailTextField.autocorrectionType = .no
         
-        welcomeLabel.isHidden = true
-        
-        UIView.animate(withDuration: 1) {
-            self.greetingLabel.isHidden = false
-            self.greetingLabel.text = "Good to see you again"
-            self.greetingLabel.layer.opacity = 0
-            self.greetingLabel.layer.opacity = 1
-        }
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.greetingLabel.isHidden = true
+        passwordChangedLabel.isHidden = true
     }
     
     // MARK: ViewDidLayoutSubviews
@@ -85,12 +68,12 @@ class LogInViewController: UIViewController {
         // add the gradient to the view
         self.view.layer.insertSublayer(gradient, at: 0)
         
-        logInButton.layer.masksToBounds = true
-        logInButton.titleLabel?.font = UIFont.robotoBold(size: 20)
-        logInButton.applyGradient(isVertical: false, colorArray: [.orange1Color, .orange2Color])
-        logInButton.tintColor = .white
-        logInButton.layer.cornerRadius = 25
-        logInButton.layer.cornerCurve = .continuous
+        resetPasswordButton.layer.masksToBounds = true
+        resetPasswordButton.titleLabel?.font = UIFont.robotoBold(size: 20)
+        resetPasswordButton.applyGradient(isVertical: false, colorArray: [.orange1Color, .orange2Color])
+        resetPasswordButton.tintColor = .white
+        resetPasswordButton.layer.cornerRadius = 25
+        resetPasswordButton.layer.cornerCurve = .continuous
     }
     
     // hide keyboard when pressing on the outside screen
@@ -106,13 +89,14 @@ class LogInViewController: UIViewController {
         return array.contains(where: { $0.email == element } )
     }
     
-    // MARK: Log In Button
+    // MARK: Reset Password Button
     
-    @IBAction func logIn(_ sender: Any) {
-        logInButton.isEnabled = false
+    @IBAction func resetPassword(_ sender: Any) {
+        resetPasswordButton.isEnabled = false
         
-        let userEmail = emailTextField.text
-        let userPassword = passwordTextField.text
+        let email = emailTextField.text
+        let newPassword = newPasswordTextField.text
+        let confirmPassword = confirmPasswordTextField.text
         
         var users = [Users]()
         
@@ -128,17 +112,12 @@ class LogInViewController: UIViewController {
         print("Current users: \(users.count)")
         
         // check if email entered exists in users array and return the index of the user in the array
-        if containsElement(element: userEmail!, array: users) {
-            let userIndex = indexElement(element: userEmail!, array: users)
-            // check if password of user with the above email is correct
-            if users[userIndex].password == userPassword {
-                // login and update the currentUser singleton to retrieve and store recipes
-                Users.currentUser.email = users[userIndex].email
-                Users.currentUser.password = users[userIndex].password
-                Users.currentUser.username = users[userIndex].username
-                Users.currentUser.isLoggedIn = true
-                Users.currentUser.index = userIndex
-                Users.currentUser.savedRecipes = users[userIndex].savedRecipes
+        if containsElement(element: email!, array: users) {
+            // if two password fields match, change the password
+            if newPassword == confirmPassword {
+                let userIndex = indexElement(element: email!, array: users)
+                // change password at the index and update password at the User defaults
+                users[userIndex].password = newPassword!
                 do {
                     let data = try JSONEncoder().encode(users)
                     UserDefaults.standard.set(data, forKey: "users")
@@ -148,17 +127,18 @@ class LogInViewController: UIViewController {
                     print("Unable to encode (\(error))")
                 }
             }
-            // wrong password
+            // wrong password fields
             else {
-                displayAlert(message: "Password is incorrect")
-                logInButton.isEnabled = true
+                displayAlert(message: "Passwords do not match")
+                resetPasswordButton.isEnabled = true
                 return
             }
+            
         }
         // wrong email
         else {
             displayAlert(message: "Email is incorrect")
-            logInButton.isEnabled = true
+            resetPasswordButton.isEnabled = true
             return
         }
         
@@ -175,18 +155,19 @@ class LogInViewController: UIViewController {
         // animation for logging in
         UIView.animate(withDuration: 2.5, animations: animation) { _ in
             self.indicatorView.stopAnimating()
-            let viewController = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as! UITabBarController
-            self.view.window?.rootViewController = viewController
-            self.view.window?.makeKeyAndVisible()
         }
     }
     
     func animation() {
         self.indicatorView.startAnimating()
-        self.welcomeLabel.isHidden = false
-        self.welcomeLabel.layer.opacity = 0
-        self.welcomeLabel.transform = CGAffineTransform(translationX: 0,
-                                                        y: self.welcomeLabel.bounds.origin.y - 20)
-        self.welcomeLabel.layer.opacity = 0.9
+        self.passwordChangedLabel.isHidden = false
+        self.passwordChangedLabel.layer.opacity = 0
+        self.passwordChangedLabel.transform = CGAffineTransform(translationX: 0,
+                                                                y: self.passwordChangedLabel.bounds.origin.y - 15)
+        self.passwordChangedLabel.layer.opacity = 0.9
     }
+    
 }
+
+
+

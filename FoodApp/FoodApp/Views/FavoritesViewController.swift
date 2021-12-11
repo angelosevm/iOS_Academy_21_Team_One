@@ -10,7 +10,6 @@ import UIKit
 class FavoritesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var viewModels = [FoodTableViewCellViewModel]()
-    var savedFavorites = [FoodTableViewCellViewModel]()
     private var index : Int?
     private let emptyLabel = UILabel()
     @IBOutlet weak var logInLabel: UILabel!
@@ -33,22 +32,14 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         logInButton.layer.cornerRadius = 25
         logInButton.layer.cornerCurve = .continuous
         
-        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        let logInState = Users.currentUser.isLoggedIn
         
         // if user IS logged in, allow for saving favorites by updating the arrays from User defaults
         if logInState {
             logInLabel.isHidden = true
             logInButton.isHidden = true
             // update viewModels and Favorites array
-            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
-                do {
-                    viewModels = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
-                    savedFavorites = viewModels
-                }
-                catch {
-                    print("Unable to decode saved recipes (\(error))")
-                }
-            }
+            viewModels = Users.currentUser.savedRecipes
         }
         // if user is NOT logged in, disable favorites functionality and display a message with a button
         else {
@@ -68,24 +59,15 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let logInState = UserDefaults.standard.bool(forKey: "isUserLoggedIn")
+        let logInState = Users.currentUser.isLoggedIn
         
         // if user IS logged in, allow for saving favorites by updating the arrays from User defaults
         if logInState {
             logInLabel.isHidden = true
             logInButton.isHidden = true
             // update viewModels and Favorites array
-            if let data = UserDefaults.standard.data(forKey: "savedRecipes") {
-                do {
-                    viewModels = try JSONDecoder().decode([FoodTableViewCellViewModel].self, from: data)
-                    savedFavorites = viewModels
-                }
-                catch {
-                    print("Unable to decode saved recipes (\(error))")
-                }
-            }
+            viewModels = Users.currentUser.savedRecipes
         }
-        
         // if user is NOT logged in, disable favorites functionality and display a message with a button
         else {
             logInLabel.isHidden = false
@@ -130,7 +112,6 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
             // if segue is correct transfer recipe details to nextVC
             guard let index = index else { return }
             nextVC.recipeDetails.append(viewModels[index])
-            nextVC.savedFavorites = self.savedFavorites
         }
     }
     
@@ -151,7 +132,7 @@ class FavoritesViewController: UIViewController, UITableViewDelegate, UITableVie
         guard let cell = tableView.dequeueReusableCell(withIdentifier: FoodTableViewCell.identifier, for: indexPath) as? FoodTableViewCell else {
             fatalError()
         }
-        cell.configure(with: viewModels[indexPath.row], favorites: savedFavorites)
+        cell.configure(with: viewModels[indexPath.row])
         
         return cell
     }

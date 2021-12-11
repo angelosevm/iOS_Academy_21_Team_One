@@ -10,6 +10,8 @@
 		39827166275AAC7600EE2112 /* StartingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39827165275AAC7600EE2112 /* StartingViewController.swift */; };
 		39827168275ACA7200EE2112 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39827167275ACA7200EE2112 /* LogInViewController.swift */; };
 		3982716A275AD2EE00EE2112 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39827169275AD2EE00EE2112 /* SignUpViewController.swift */; };
+		3994756B2764DDB000462FCF /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3994756A2764DDB000462FCF /* Users.swift */; };
+		3994756E2764FDC200462FCF /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3994756D2764FDC200462FCF /* ResetPasswordViewController.swift */; };
 		3995786B2753CE3E006A01E2 /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3995786A2753CE3E006A01E2 /* CategoryViewController.swift */; };
 		3995786D2753CE5E006A01E2 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3995786C2753CE5E006A01E2 /* FavoritesViewController.swift */; };
 		3995786F2753CE6E006A01E2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3995786E2753CE6E006A01E2 /* SettingsViewController.swift */; };
@@ -84,6 +86,8 @@
 		39827165275AAC7600EE2112 /* StartingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingViewController.swift; sourceTree = "<group>"; };
 		39827167275ACA7200EE2112 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		39827169275AD2EE00EE2112 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		3994756A2764DDB000462FCF /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
+		3994756D2764FDC200462FCF /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		3995786A2753CE3E006A01E2 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		3995786C2753CE5E006A01E2 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		3995786E2753CE6E006A01E2 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +170,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3994756C2764F7D500462FCF /* User Info */ = {
+			isa = PBXGroup;
+			children = (
+				3994756A2764DDB000462FCF /* Users.swift */,
+			);
+			path = "User Info";
+			sourceTree = "<group>";
+		};
 		399684F1274D53060020F169 = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +211,7 @@
 				3996B914274FE21800249C3C /* Fonts */,
 				39CCAC8A2758EC72003C3F36 /* Views */,
 				39CCAC8C2758ECAA003C3F36 /* Cells */,
+				3994756C2764F7D500462FCF /* User Info */,
 				39CCAC8B2758EC9A003C3F36 /* Network */,
 			);
 			path = FoodApp;
@@ -279,6 +292,7 @@
 				39827165275AAC7600EE2112 /* StartingViewController.swift */,
 				39827167275ACA7200EE2112 /* LogInViewController.swift */,
 				39827169275AD2EE00EE2112 /* SignUpViewController.swift */,
+				3994756D2764FDC200462FCF /* ResetPasswordViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -478,6 +492,8 @@
 				3995786F2753CE6E006A01E2 /* SettingsViewController.swift in Sources */,
 				3996D14227513AEF00AD964A /* Colors.swift in Sources */,
 				3995786B2753CE3E006A01E2 /* CategoryViewController.swift in Sources */,
+				3994756E2764FDC200462FCF /* ResetPasswordViewController.swift in Sources */,
+				3994756B2764DDB000462FCF /* Users.swift in Sources */,
 				39968530274D68C60020F169 /* FoodTableViewCell.swift in Sources */,
 				39D05AF727565AB800518824 /* IngredientCell.swift in Sources */,
 				39968500274D53060020F169 /* SceneDelegate.swift in Sources */,
