@@ -146,11 +146,16 @@ class SignUpViewController: UIViewController {
         // if email doesn't exist, create and store new user
         // users singleton now contains current User that signed up and can be used to retrieve or store recipes
         else {
+            let newUser = Users()
             Users.currentUser.email = userEmail!
             Users.currentUser.password = userPassword!
             Users.currentUser.username = userName!
-            users.append(Users.currentUser)
-            let userIndex = indexElement(element: Users.currentUser.email, array: users)
+            Users.currentUser.savedRecipes = []
+            newUser.email = userEmail!
+            newUser.password = userPassword!
+            newUser.username = userName!
+            users.append(newUser)
+            let userIndex = indexElement(element: newUser.email, array: users)
             Users.currentUser.isLoggedIn = true
             Users.currentUser.index = userIndex
             do {
