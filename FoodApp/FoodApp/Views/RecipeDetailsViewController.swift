@@ -225,9 +225,9 @@ class RecipeDetails: UIViewController, UITableViewDataSource, UITableViewDelegat
     
     // when hitting the "Share this recipe" button, show toolbar for sharing
     @IBAction func shareRecipe(_ sender: UIButton) {
-        let text = recipeTitle
+        let text = recipeTitle.text
         let image = recipeImage
-        let myWebsite = "Share this recipe: \(recipeDetails[0].recipeURL)"
+        let myWebsite = "\nShare this recipe at: \(recipeDetails[0].recipeURL)"
         let shareAll = [text! , image! , myWebsite] as [Any]
         let activityViewController = UIActivityViewController(activityItems: shareAll, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view

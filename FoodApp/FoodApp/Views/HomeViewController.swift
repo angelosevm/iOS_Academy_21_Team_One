@@ -65,7 +65,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.separatorStyle = .none
         
         createSearchBar()
-        query = "Main"
+        query = "Christmas"
         // Default search when launching app
         getData(query!, checkIfConst: false, urlConst: "")
     }

@@ -151,7 +151,6 @@ class SignUpViewController: UIViewController {
             Users.currentUser.username = userName!
             users.append(Users.currentUser)
             let userIndex = indexElement(element: Users.currentUser.email, array: users)
-            Users.currentUser.savedRecipes = users[userIndex].savedRecipes
             Users.currentUser.isLoggedIn = true
             Users.currentUser.index = userIndex
             do {
