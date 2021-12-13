@@ -124,6 +124,7 @@ class SignUpViewController: UIViewController {
         if (userName?.isEmpty ?? true || userEmail?.isEmpty
             ?? true || userPassword?.isEmpty ?? true) {
             displayAlert(message: "All fields are required")
+            signUpButton.isEnabled = true
             return
         }
         
